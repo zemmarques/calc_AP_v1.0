@@ -59,7 +59,7 @@ class AnoLetivo(models.Model):
 
         # Cálculo e definição de todos os feriados para este ano letivo
 
-        f = feriados  # vai buscar o dicionário com todos os objetos FeriadosBackup
+        # feriados é um dicionário com todos os objetos FeriadosBackup
 
         if is_new:
             # lista com os anos do ano letivo separados
@@ -81,6 +81,7 @@ class AnoLetivo(models.Model):
             atualiza_feriados_por_data("Alcoutim - Feriado Municipal de Alcoutim", date(int(anos[0]), 9, 1), 2,
                                        "sexta-feira")
 
+            # feriados é um dicionário com todos os objetos FeriadosBackup
             for f in feriados:
                 if feriados[f].data.month > 7:
                     nova_data = date(int(anos[0]), feriados[f].data.month, feriados[f].data.day)
@@ -159,8 +160,8 @@ class Periodo(models.Model):
     )
     start_date2 = models.DateField(
         'Início 2',
-        blank=False,
-        null=False,
+        blank=True,
+        null=True,
     )
     end_date = models.DateField(
         'Fim',
