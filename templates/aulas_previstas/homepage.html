@@ -1,0 +1,289 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+
+{% block content %}
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+      <div class="container">
+        <div class="row mb-2">
+          <div class="col-sm-9">
+            <h1 class="m-0"><i class="fas fa-pen-fancy"></i> Insira os dados </h1>
+          </div><!-- /.col -->
+          <div class="col-sm-3">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="{% url 'aulas_previstas:homepage' %}">Home</a></li>
+            </ol>
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+
+    <!-- Main content -->
+    <div class="content">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-6">
+            <div class="card card-outline card-primary">
+                <div class="card-header card-red text-center ">
+                    <a href="{% url 'aulas_previstas:homepage' %}" class="h1">
+                        <b><i class="fas fa-calculator"></i> Calc</b> @:P
+                    </a>
+                </div>
+
+                <div class="card-body card-outline card-primary">
+                    <form method="post" id="feriadoForm"
+                          data-feriados-url="{% url 'AulasPrevistas:ajax_load_feriados' %}" novalidate>
+                        {% csrf_token %}
+
+                        <!-- /.Campos do formulário -->
+                        {% for field in form %}
+
+                            <!-- /.Ano Letivo field -->
+                            {% if field.name == "name" %}
+                                <div class="form-group">
+                                    <label>Ano Letivo</label>
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">
+                                                <span class="fas fa-school"></span>
+                                            </div>
+                                        </div>
+                                        {% render_field field class="form-control" %}
+                                    </div>
+                                </div>
+                            {% endif %}
+
+                            <!-- /.Nivel de ensino field -->
+                            {% if field.name == "grade" %}
+                                <div class="form-group">
+                                    <label>Nível de ensino</label>
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">
+                                                <span class="fas fa-user-friends"></span>
+                                            </div>
+                                        </div>
+                                        {% render_field field class="form-control" placeholder=field.label %}
+                                    </div>
+                                </div>
+                            {% endif %}
+
+                            <!-- /.Disciplina anual/semestral field -->
+                            {% if field.name == "disciplina" %}
+                                <div class="form-group clearfix">
+                                    <div class="icheck-alizarin d-inline">
+                                        {% render_field field class="list-unstyled d-inline" placeholder=field.label %}
+                                    </div>
+                                </div>
+                            {% endif %}
+
+                            <!-- /.data início do Ano Letivo field -->
+                            {% if field.name == "inicio_ano" %}
+                                <div class="form-group">
+                                    <label>Início do Ano letivo:</label>
+                                    <div class="input-group date mb-3">
+                                        <div class="input-group-prepend">
+                                                <span class="input-group-text">
+                                                    <i class="fas fa-calendar-day"></i>
+                                                </span>
+                                        </div>
+                                        {% render_field field class="form-control float-right" value="20/04/2005" id="reservation" placeholder=field.label %}
+                                    </div>
+                                </div>
+                            {% endif %}
+
+                            <!-- /.data fim do 1ºSem field -->
+                            {% if field.name == "fim_1s" %}
+                                <div class="form-group">
+                                    <label>Data do fim do 1ºSemestre</label>
+                                    {% render_field field class="form-control input float-right" value="20/04/2005" id="reservation" placeholder=field.label %}
+                                </div>
+                            {% endif %}
+
+                            <!-- /.data início do 2ºSem field -->
+                            {% if field.name == "inicio_2s" %}
+                                <div class="form-group">
+                                    <label>Data de início do 2ºSemestre:</label>
+                                    {% render_field field class="form-control input float-right" value="20/04/2005" id="reservation" placeholder=field.label %}
+                                </div>
+                            {% endif %}
+
+                            <!-- /.Carga semanal fields -->
+                            <!-- /.2ªFEIRA field -->
+                            {% if field.name == "segunda" %}
+                                <p class="login-box-msg">Tempos letivos em cada dia da semana:</p>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" style="border: 0">2ªF</span>
+                                    </div>
+                                    {% render_field field class="form-control" placeholder=field.label %}
+                                    <div class="input-group-append">
+                                        <span class="input-group-text" id="inputGroup-sizing-sm">Tempo(s)</span>
+                                    </div>
+                                </div>
+                            {% endif %}
+
+                            <!-- /.3ªFEIRA field -->
+                            {% if field.name == "terca" %}
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" style="border: 0">3ªF</span>
+                                    </div>
+                                    {% render_field field class="form-control" placeholder=field.label %}
+                                    <div class="input-group-append">
+                                        <span class="input-group-text" id="inputGroup-sizing-sm">Tempo(s)</span>
+                                    </div>
+                                </div>
+                            {% endif %}
+
+                            <!-- /.4ªFEIRA field -->
+                            {% if field.name == "quarta" %}
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" style="border: 0">4ªF</span>
+                                    </div>
+                                    {% render_field field class="form-control" placeholder=field.label %}
+                                    <div class="input-group-append">
+                                        <span class="input-group-text" id="inputGroup-sizing-sm">Tempo(s)</span>
+                                    </div>
+                                </div>
+                            {% endif %}
+
+                            <!-- /.5ªFEIRA field -->
+                            {% if field.name == "quinta" %}
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" style="border: 0">5ªF</span>
+                                    </div>
+                                    {% render_field field class="form-control" placeholder=field.label %}
+                                    <div class="input-group-append">
+                                        <span class="input-group-text" id="inputGroup-sizing-sm">Tempo(s)</span>
+                                    </div>
+                                </div>
+                            {% endif %}
+
+                            <!-- /.6ªFEIRA field -->
+                            {% if field.name == "sexta" %}
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" style="border: 0">6ªF</span>
+                                    </div>
+                                    {% render_field field class="form-control" placeholder=field.label %}
+                                    <div class="input-group-append">
+                                        <span class="input-group-text" id="inputGroup-sizing-sm">Tempo(s)</span>
+                                    </div>
+                                </div>
+                            {% endif %}
+
+                            <!-- /.Feriado municipal field -->
+                            {% if field.name == "feriado_movel" %}
+                                <label>Feriado Municipal</label>
+                                <div class="input-group mb-3">
+
+                                    {% render_field field class="form-control" %}
+                                    <div class="input-group-append">
+                                        <div class="input-group-text">
+                                            <span class="fas fa-calendar-day"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+
+                            <!-- /.Erros no formulário fields -->
+                            {% for error in field.errors %}
+                                <p>{{ error }}</p>
+                                <ul>
+                                    <li class="text-danger" style="list-style-type:square;">
+                                        {{ error }}
+                                    </li>
+                                </ul>
+                            {% endfor %}
+
+                        {% endfor %}
+                        <br>
+
+                        <!-- /.submit button -->
+                        <div class="row">
+                            <div class="col text-center" >
+                                <button type="submit" class="btn btn-primary btn-block">Calcular</button>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+                <!-- /.form-box -->
+            </div><!-- /.card -->
+
+            <div class="card card-primary card-outline">
+              <div class="card-body">
+                <h5 class="card-title">Card title</h5>
+
+                <p class="card-text">
+                  Some quick example text to build on the card title and make up the bulk of the card's
+                  content.
+                </p>
+                <a href="#" class="card-link">Card link</a>
+                <a href="#" class="card-link">Another link</a>
+              </div>
+            </div><!-- /.card -->
+          </div>
+          <!-- /.col-md-6 -->
+          <div class="col-lg-6">
+            <div class="card">
+              <div class="card-header">
+                <h5 class="card-title m-0">Featured</h5>
+              </div>
+              <div class="card-body">
+                <h6 class="card-title">Special title treatment</h6>
+
+                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                <a href="#" class="btn btn-primary">Go somewhere</a>
+              </div>
+            </div>
+
+            <div class="card card-primary card-outline">
+              <div class="card-header">
+                <h5 class="card-title m-0">Featured</h5>
+              </div>
+              <div class="card-body">
+                <h6 class="card-title">Special title treatment</h6>
+
+                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                <a href="#" class="btn btn-primary">Go somewhere</a>
+              </div>
+            </div>
+          </div>
+          <!-- /.col-md-6 -->
+        </div>
+        <!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content -->
+  </div><!-- /.content-wrapper -->
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <script>
+      $("#id_name").change(function () {
+          console.log(5 + 6);
+          var url = $("#feriadoForm").attr("data-feriados-url");  // get the url of the `load_cities` view
+          var ano_letivoId = $(this).val();  // get the selected country ID from the HTML input
+
+
+          $.ajax({                       // initialize an AJAX request
+              url: url,                    // set the url of the request (= localhost:8000/ajax/load-feriados/)
+              data: {
+                  'ano_letivo': ano_letivoId       // add the ano letivo id to the GET parameters
+              },
+              success: function (data) {   // `data` is the return of the `load_feriados` view function
+                  $("#id_feriado_movel").html(data);  // replace the contents of the feriado input with the data that came from the server
+              }
+          });
+
+      });
+  </script>
+
+{% endblock %}

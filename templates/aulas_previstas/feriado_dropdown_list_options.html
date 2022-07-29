@@ -1,0 +1,4 @@
+<option value=""> Feriado Municipal </option>
+{% for feriado in feriados %}
+    <option value="{{ feriado.pk }}">{{ feriado }}</option>
+{% endfor %}

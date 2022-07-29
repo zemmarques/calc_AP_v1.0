@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'apps.aulas_previstas',
 
     # other apps
+    'widget_tweaks',
 
 ]
 

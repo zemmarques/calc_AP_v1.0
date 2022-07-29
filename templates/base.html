@@ -1,0 +1,74 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>  Calc @:P</title>
+
+
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="{% static 'admin_lte/plugins/fontawesome-free/css/all.min.css' %}">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="{% static 'admin_lte/dist/css/adminlte.min.css' %}">
+
+    <!-- ToastsR -->
+    <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'admin_lte/plugins/toastr/toastr.css' %}" media="all">
+    <script type="text/javascript" src="{% static 'admin_lte/plugins/toastr/toastr.min.js' %}"></script>
+</head>
+<body class="hold-transition layout-top-nav layout-footer-fixed">
+<!-- Site wrapper -->
+
+<!-- Mensagens do Django -->
+{% if messages %}
+    {% for message in messages %}
+        {% if message.tags == 'success' %}
+            <script type=text/javascript>toastr.{{ message.tags }}('{{ message }}')</script>
+        {% elif message.tags == 'info' %}
+            <script type=text/javascript>toastr.{{ message.tags }}('{{ message }}')</script>
+        {% elif message.tags == 'warning' %}
+            <script type=text/javascript>toastr.{{ message.tags }}('{{ message }}')</script>
+        {% elif message.tags == 'error' %}
+            <script type=text/javascript>toastr.{{ message.tags }}('{{ message }}')</script>
+        {% endif %}
+    {% endfor %}
+{% endif %}
+<!-- / Mensagens do Django End-->
+
+<div class="wrapper">
+
+    <!-- Navbar -->
+    {% block navbar %}
+        {% include 'navbar.html' %}
+    {% endblock %}
+    <!-- /.navbar -->
+
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        {% block content %}
+
+        {% endblock %}
+    </div>
+    <!-- /.content-wrapper -->
+
+
+    {% block footer %}
+        {% include 'footer.html' %}
+    {% endblock %}
+
+</div>
+<!-- ./wrapper -->
+
+<!-- jQuery -->
+<script src="{% static 'admin_lte/plugins/jquery/jquery.min.js' %}"></script>
+<!-- Bootstrap 4 -->
+<script src="{% static 'admin_lte/plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<!-- AdminLTE App -->
+<script src="{% static 'admin_lte/dist/js/adminlte.min.js' %}"></script>
+</body>
+</html>
