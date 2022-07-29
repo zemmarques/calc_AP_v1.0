@@ -45,6 +45,9 @@ class AnoLetivoForm(ModelForm):
     inicio_ano = forms.DateField(
         label="Data de início do ano letivo",
     )
+    fim_ano = forms.DateField(
+        label="Data de fim do ano letivo",
+    )
     fim_1s = forms.DateField(
         label="FIM do 1ºSemestre",
     )
@@ -75,7 +78,7 @@ class AnoLetivoForm(ModelForm):
     class Meta:
         model = AnoLetivo
         fields = [
-            'name', 'grade', 'disciplina', 'inicio_ano', 'fim_1s', 'inicio_2s', 'feriado_movel', 'segunda',
+            'name', 'grade', 'disciplina', 'inicio_ano', 'fim_ano', 'fim_1s', 'inicio_2s', 'feriado_movel', 'segunda',
             'terca', 'quarta', 'quinta', 'sexta',
         ]
 
