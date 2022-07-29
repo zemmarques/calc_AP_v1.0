@@ -26,7 +26,8 @@
     <!-- Main content -->
     <div class="content">
       <div class="container">
-
+        <div class="row">
+          <div class="col-lg-6">
             <div class="card card-outline card-primary">
                 <div class="card-header card-red text-center ">
                     <a href="{% url 'aulas_previstas:homepage' %}" class="h1">
@@ -35,10 +36,6 @@
                 </div>
 
                 <div class="card-body card-outline card-primary">
-
-                <div class="row">
-              <div class="col-md-6">
-
                     <form method="post" id="feriadoForm"
                           data-feriados-url="{% url 'aulas_previstas:ajax_load_feriados' %}" novalidate>
                         {% csrf_token %}
@@ -115,10 +112,7 @@
                                     {% render_field field class="form-control input float-right" value="20/04/2005" id="reservation" placeholder=field.label %}
                                 </div>
                             {% endif %}
-                            {% endfor %}
-                            </div>
-                            <div class="col-md-6">
-                            {% for field in form %}
+
                             <!-- /.Carga semanal fields -->
                             <!-- /.2ªFEIRA field -->
                             {% if field.name == "segunda" %}
@@ -200,7 +194,15 @@
                                 </div>
                             {% endif %}
 
-
+                            <!-- /.Erros no formulário fields -->
+                            {% for error in field.errors %}
+                                <p>{{ error }}</p>
+                                <ul>
+                                    <li class="text-danger" style="list-style-type:square;">
+                                        {{ error }}
+                                    </li>
+                                </ul>
+                            {% endfor %}
 
                         {% endfor %}
                         <br>
@@ -213,14 +215,52 @@
                         </div>
 
                     </form>
-              </div>
-                </div>
                 </div>
                 <!-- /.form-box -->
             </div><!-- /.card -->
 
+            <div class="card card-primary card-outline">
+              <div class="card-body">
+                <h5 class="card-title">Card title</h5>
 
+                <p class="card-text">
+                  Some quick example text to build on the card title and make up the bulk of the card's
+                  content.
+                </p>
+                <a href="#" class="card-link">Card link</a>
+                <a href="#" class="card-link">Another link</a>
+              </div>
+            </div><!-- /.card -->
+          </div>
+          <!-- /.col-md-6 -->
+          <div class="col-lg-6">
+            <div class="card">
+              <div class="card-header">
+                <h5 class="card-title m-0">Featured</h5>
+              </div>
+              <div class="card-body">
+                <h6 class="card-title">Special title treatment</h6>
 
+                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                <a href="#" class="btn btn-primary">Go somewhere</a>
+              </div>
+            </div>
+
+            <div class="card card-primary card-outline">
+              <div class="card-header">
+                <h5 class="card-title m-0">Featured</h5>
+              </div>
+              <div class="card-body">
+                <h6 class="card-title">Special title treatment</h6>
+
+                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                <a href="#" class="btn btn-primary">Go somewhere</a>
+              </div>
+            </div>
+          </div>
+          <!-- /.col-md-6 -->
+        </div>
+        <!-- /.row -->
       </div><!-- /.container-fluid -->
     </div>
     <!-- /.content -->
