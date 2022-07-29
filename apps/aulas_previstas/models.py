@@ -290,3 +290,6 @@ class Feriado(models.Model):
 
     # para remover acentos do self.concelho na função def save - ainda não implementado, não sei se será necessário
     # https://stackoverflow.com/questions/517923/what-is-the-best-way-to-remove-accents-normalize-in-a-python-unicode-string
+
+    # contador de visitas da página
+    # https://developer.mozilla.org/pt-BR/docs/Learn/Server-side/Django/Sessions
