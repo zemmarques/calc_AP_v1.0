@@ -92,8 +92,8 @@ def get_dia_pascoa(ano):
     k = c % 4
     l = (32 + (2 * e) + (2 * i) - h - k) % 7
     m = (a + (11 * h) + (22 * l)) // 451
-    month = (h + l - (7 * m) + (114)) // 31
-    day = 1 + ((h + l - (7 * m) + (114)) % 31)
+    month = (h + l - (7 * m) + 114) // 31
+    day = 1 + ((h + l - (7 * m) + 114) % 31)
 
     return date(ano, month, day)
 
