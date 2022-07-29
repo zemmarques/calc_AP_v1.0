@@ -222,9 +222,9 @@ def homepage(request):
             template_name = 'aulas_previstas/results.html'
             return render(request, template_name, context)
         else:
-            if form.error_messages:
+            if form.errors:
                 messages.error(request, "Falha no registo! Verifique os campos do formulário.")
-            template_name = "contas/register.html"
+            template_name = "aulas_previstas/homepage.html"
             context = {"form": form}
             return render(request, template_name, context)
 

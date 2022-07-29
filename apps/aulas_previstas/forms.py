@@ -2,7 +2,7 @@ from django.forms import ModelForm
 from django import forms
 from django.forms.models import ModelChoiceField
 
-from apps.aulas_previstas.models import AnoLetivo, Feriado
+from apps.aulas_previstas.models import AnoLetivo, Periodo, Feriado
 
 
 TEMPOS_LETIVOS = (
@@ -44,7 +44,6 @@ class AnoLetivoForm(ModelForm):
     )
     inicio_ano = forms.DateField(
         label="Data de início do ano letivo",
-        empty='21/01/1974',
     )
     fim_1s = forms.DateField(
         label="FIM do 1ºSemestre",
