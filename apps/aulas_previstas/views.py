@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 import datetime
 from datetime import timedelta
+from django.contrib import messages
 
 from apps.aulas_previstas.models import AnoLetivo, Periodo, Feriado
 from apps.aulas_previstas.forms import AnoLetivoForm
@@ -27,6 +28,18 @@ def imprime_dias(msg, dicionario):
         #    print("      ", d)
 
     print()
+
+
+def load_feriados(request):
+    name_id = request.GET.get('ano_letivo')
+    print(request)
+    feriados = Feriado.objects.filter(ano_letivo_id=name_id, tipo="municipal").order_by('concelho')
+    print(feriados)
+    return render(
+        request,
+        'aulas_previstas/feriado_dropdown_list_options.html',
+        {'feriados': feriados}
+    )
 
 
 def calculo_previstas(request, data, ):
@@ -133,7 +146,7 @@ def calculo_previstas(request, data, ):
     dicionario_tabela_ap = {}
     lista = []
     calendario = [
-        '2ªFeira', '3ªFeira', '4ªFeira', '5ªFeira', '6ªFeria'
+        '2ªFeira', '3ªFeira', '4ªFeira', '5ªFeira', '6ªFeira'
     ]
     for key in carga_semanal:
         for p in dicionario_dias_aula:
@@ -219,3 +232,17 @@ def homepage(request):
     message = 'Calc @:P'
     template_name = 'aulas_previstas/homepage.html'
     return render(request, template_name, context={"form": form, 'msn': message})
+
+
+def show_results(request):
+    """ Apresenta os resultados do calculo de aulas previstas efetuado """
+
+    template_name = 'aulas_previstas/results.html'
+    print("oi")
+    # data = request.session.get("data")
+    # print(data)
+    context = {
+        'msn': 'Olá Mundo',
+    }
+
+    return render(request, template_name, context)
