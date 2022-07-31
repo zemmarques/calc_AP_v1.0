@@ -46,13 +46,17 @@ class AnoLetivoForm(ModelForm):
         label="Data de início do ano letivo",
     )
     fim_ano = forms.DateField(
-        label="Data de fim do ano letivo",
+        required=False,
     )
     fim_1s = forms.DateField(
         label="FIM do 1ºSemestre",
+        required=True,
+
     )
     inicio_2s = forms.DateField(
         label="Início do 2ºSemestre",
+        required=False,
+
     )
     feriado_movel = ModelChoiceField(
         queryset=Feriado.objects.filter(tipo="municipal"),
@@ -85,6 +89,24 @@ class AnoLetivoForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['feriado_movel'].queryset = Feriado.objects.none()
+
+        if 'name' in self.data:
+            try:
+                name_id = int(self.data.get('name'))
+                self.fields['feriado_movel'].queryset = Feriado.objects.filter(
+                    ano_letivo_id=name_id, tipo="municipal").order_by('concelho')
+
+                # para apresentar a data final do ano letivo
+                tipo = self.data.get('grade')
+                p = Periodo.objects.get(ano_letivo=name_id, tipo=tipo)
+
+                self.fields['fim_ano'].disabled = True
+                self.fields['fim_ano'].initial = p.end_date
+
+            except (ValueError, TypeError):
+                pass  # invalid input from the client; ignore and fallback to empty City queryset
+        elif self.instance.pk:
+            self.fields['feriado_movel'].queryset = self.instance.name.feriado_set.order_by('name')
 
 # Links úteis:
 

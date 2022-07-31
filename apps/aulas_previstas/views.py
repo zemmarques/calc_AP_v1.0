@@ -42,6 +42,19 @@ def load_feriados(request):
     )
 
 
+def load_fim_ano(request):
+    name_id = request.GET.get('ano_letivo')
+    grade = request.GET.get('grade')
+    periodo = Periodo.objects.get(ano_letivo_id=name_id, tipo=grade)
+    p_data = periodo.end_date
+    print(p_data)
+
+    return render(
+        request,
+        'aulas_previstas/data_fim_ano.html',
+        {'fim_ano': p_data}
+    )
+
 def calculo_previstas(request, data, ):
     """ Calcula as aulas previstas para um ano letivo """
 
@@ -90,7 +103,7 @@ def calculo_previstas(request, data, ):
         # coloca datas dos feriados numa lista e ordena a lista
         lista_data_feriados = []
         for f in feriados:
-            lista_data_feriados.append(f.date)
+            lista_data_feriados.append(f.data)
         lista_data_feriados.sort()
         print(" - Feriados:", lista_data_feriados)
 
@@ -102,7 +115,7 @@ def calculo_previstas(request, data, ):
         carnaval = Periodo.objects.filter(ano_letivo=ano_letivo.id, tipo="carnaval")
         lista_dias_carnaval = []
         for c in carnaval:
-            for single_date in daterange(c.start_date, c.end_date):
+            for single_date in daterange(c.start_date1, c.end_date):
                 lista_dias_carnaval.append(single_date)
         print(" - Dias de Carnaval:", lista_dias_carnaval)
 

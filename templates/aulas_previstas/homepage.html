@@ -37,7 +37,8 @@
 
                             <div class="card-body card-outline card-primary">
                                 <form method="post" id="feriadoForm"
-                                      data-feriados-url="{% url 'aulas_previstas:ajax_load_feriados' %}" novalidate>
+                                      data-feriados-url="{% url 'aulas_previstas:ajax_load_feriados' %}"
+                                      date-fim_ano-url="{% url 'aulas_previstas:ajax_load_fim_ano' %}" novalidate>
                                     {% csrf_token %}
 
                                     <!-- /.Campos do formulário -->
@@ -117,7 +118,7 @@
                                                                     <i class="fas fa-calendar-day"></i>
                                                                 </span>
                                                             </div>
-                                                            {% render_field field class="form-control float-right" value="20/04/2005" id="reservation" placeholder=field.label %}
+                                                            {% render_field field class="form-control float-right" value="2022-04-20" id="reservation" placeholder=field.label %}
                                                         </div>
                                                     </div>
 
@@ -144,7 +145,7 @@
                                                                     <i class="fas fa-calendar-day"></i>
                                                                 </span>
                                                             </div>
-                                                            {% render_field field class="form-control float-right" value="20/04/2005" id="reservation" disabled="disabled" placeholder=field.label %}
+                                                            {% render_field field class="form-control float-right" disabled="disabled" %}
                                                         </div>
                                                     </div>
 
@@ -162,7 +163,7 @@
 
                                         <!-- /.data fim do 1ºSem field -->
                                         {% if field.name == "fim_1s" %}
-                                            <div class="row">
+                                            <div class="row" id="disciplina_div" {% if not field.errors %} style="display: none;" {% endif %} >
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label>Fim do 1ºSemestre:</label>
@@ -172,7 +173,7 @@
                                                                     <i class="fas fa-calendar-day"></i>
                                                                 </span>
                                                             </div>
-                                                            {% render_field field class="form-control input float-right" value="20/04/2005" id="reservation" disabled="disabled" placeholder=field.label %}
+                                                            {% render_field field class="form-control input float-right" %}
                                                         </div>
                                                     </div>
 
@@ -198,7 +199,7 @@
                                                                     <i class="fas fa-calendar-day"></i>
                                                                 </span>
                                                             </div>
-                                                            {% render_field field class="form-control input float-right" value="20/04/2005" id="reservation" disabled="disabled" placeholder=field.label %}
+                                                            {% render_field field class="form-control input float-right" %}
                                                         </div>
                                                     </div>
 
@@ -373,7 +374,6 @@
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script>
         $("#id_name").change(function () {
-            console.log(5 + 6);
             var url = $("#feriadoForm").attr("data-feriados-url");  // get the url of the `load_cities` view
             var ano_letivoId = $(this).val();  // get the selected country ID from the HTML input
 
@@ -387,6 +387,61 @@
                     $("#id_feriado_movel").html(data);  // replace the contents of the feriado input with the data that came from the server
                 }
             });
+
+        });
+
+        $("#id_name").change(function () {
+            var url = $("#feriadoForm").attr("date-fim_ano-url");  // get the url of the `load_cities` view
+            var ano_letivoId = $(this).val();  // get the selected country ID from the HTML input
+            var grade = $("#id_grade").val()
+
+            $.ajax({                       // initialize an AJAX request
+                url: url,                    // set the url of the request (= localhost:8000/ajax/load-feriados/)
+                data: {
+                    'ano_letivo': ano_letivoId,  // add the ano letivo id to the GET parameters
+                    'grade': grade
+                },
+                success: function (data) {   // `data` is the return of the `load_feriados` view function
+                    $("#id_fim_ano").html(data);  // replace the contents of the feriado input with the data that came from the server
+                    $("#id_fim_ano").attr("value", data);
+                    //$("#id_fim_ano").attr("disabled", "disabled");
+                }
+            });
+
+        });
+
+        $("#id_grade").change(function () {
+            var url = $("#feriadoForm").attr("date-fim_ano-url");  // get the url of the `load_cities` view
+            var grade = $(this).val();  // get the selected country ID from the HTML input
+            var ano_letivoId = $("#id_name").val()
+
+            $.ajax({                       // initialize an AJAX request
+                url: url,                    // set the url of the request (= localhost:8000/ajax/load-feriados/)
+                data: {
+                    'ano_letivo': ano_letivoId,  // add the ano letivo id to the GET parameters
+                    'grade': grade
+                },
+                success: function (data) {   // `data` is the return of the `load_feriados` view function
+                    $("#id_fim_ano").html(data);  // replace the contents of the feriado input with the data that came from the server
+                    $("#id_fim_ano").attr("value", data);
+                    //$("#id_fim_ano").attr("disabled", "disabled");
+                }
+            });
+        });
+        $("#id_disciplina").change(function () {
+
+             $("#id_fim_1s").required = false;
+
+            if($("#id_disciplina_0").is(':checked')) {
+                $("#disciplina_div").hide();
+                $("#id_fim_1s").required = false;
+
+            }
+            if($("#id_disciplina_1").is(':checked')) {
+                $("#disciplina_div").show();
+
+
+            }
 
         });
     </script>

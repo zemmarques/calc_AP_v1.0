@@ -1,0 +1,365 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% block content %}
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <div class="content-header">
+            <div class="container">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                       <h1><i class="fas fa-paperclip"></i>  Resultados</h1>
+                    </div><!-- /.col -->
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item">
+                                <a href="{% url 'aulas_previstas:homepage' %}">Home</a>
+                            </li>
+                            <li class="breadcrumb-item active"> Resultados:</li>
+                        </ol>
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.container-fluid -->
+        </div>
+        <!-- /.content-header -->
+
+        <!-- Main content -->
+        <div class="content">
+            <div class="container">
+                <div class="row  text-center">
+                    <div class="col-lg-4">
+                        <h5><b>Ano Letivo:</b> {{ ano_letivo }}</h5>
+                    </div>
+                    <div class="col-lg-4">
+                        <h5><b>Disciplina:</b> {{ disciplina }}</h5>
+                    </div>
+                    <div class="col-lg-4">
+                        <h5><b>Nível de ensino:</b> {{ escolaridade }}</h5>
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card card-fuchsia">
+                            <div class="card-header">
+                                <h3 class="card-title">
+                                    <i class="fas fa-fan"></i>
+                                    Aulas Previstas
+                                </h3>
+                                <div class="card-tools">
+                                    <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="card-body table-responsive">
+                                <p class="card-text">
+                                    Tabela com o número de dias de aulas e número aulas previstas calculados a partir da carga semanal, introduzida pelo utilizador.
+                                </p>
+
+                                <table class="table text-center table-bordered table-striped text-nowrap">
+                                    <thead>
+                                    <tr>
+                                        <th class="border-top" colspan="2" > Carga Semanal</th>
+                                        <th class="border-top" class="text-center" colspan="4"> Dias de Aula</th>
+                                        <th class="border-top" class="text-center" colspan="4"> Aulas Previstas</th>
+                                    </tr>
+                                    <tr>
+                                        <th class="border-left" > dia da semana</th>
+                                        <th class="border-right">tempos</th>
+                                        <th>1P</th>
+                                        <th>2P</th>
+                                        <th>3P</th>
+                                        <th class="border-right">total</th>
+                                        <th>1P</th>
+                                        <th>2P</th>
+                                        <th>3P</th>
+                                        <th class="border-right">total</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for key, obj in dicionario_tabela_ap.items %}
+                                    <tr>
+                                        <td class="border-left">{{ key }}</td>
+                                        <td class="border-right">{{ obj.carga_semanal }}</td>
+                                        <td>{{ obj.conta_weekdays_1p }}</td>
+                                        <td>{{ obj.conta_weekdays_2p }}</td>
+                                        <td>{{ obj.conta_weekdays_3p }}</td>
+                                        <th class="border-right">{{ obj.total_weekdays }}</th>
+                                        <td>{{ obj.aulas_previstas_1p}}</td>
+                                        <td>{{ obj.aulas_previstas_2p}}</td>
+                                        <td>{{ obj.aulas_previstas_3p}}</td>
+                                        <th class="border-right">{{  obj.total_previstas }}</th>
+
+                                    </tr>
+                                    {% endfor %}
+
+                                    <tr>
+                                        <th class="border-right " colspan="2" style="width: 150px"> totais</th>
+                                        {% for key, value in totais_dicionario_tabela_ap.items %}
+                                        <th class="border-bottom">{{ value }}</th>
+                                        {%  endfor %}
+                                    </tr>
+                                    </tbody>
+                                </table>
+
+                            </div>
+                            <div class="card-footer clearfix">
+                                <ul class="pagination pagination-sm m-0 float-right">
+                                    <a href="#" class="card-link">excel</a>
+                                    <a href="#" class="card-link">pdf</a>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.col-md-6 -->
+                </div>
+
+                <div class="row">
+
+                    <div class="col-lg-6">
+                        <div class="card card-primary">
+                            <div class="card-header">
+                                <h3 class="card-title">
+                                    <i class="fas fa-fan"></i>
+                                    Calendário escolar
+                                </h3>
+                                <div class="card-tools">
+                                    <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <!-- /.card-header -->
+                            <div class="card-body">
+                                <p class="card-text">
+                                    ano letivo: xxxx/xxxx - anos de escolaridade: Pré escolar e .
+                                </p>
+
+                                <table class="table text-center table-bordered table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th> Dia</th>
+                                        <th> Dia da semana</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td>20/2/2023</td>
+                                        <td>2ªfeira</td>
+                                    </tr>
+                                    <tr>
+                                        <td>21/2/2023</td>
+                                        <td>3ªfeira</td>
+                                    </tr>
+                                    <tr>
+                                        <td>22/2/2023</td>
+                                        <td>4ªFeira</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- /.card-body -->
+                            <div class="card-footer clearfix">
+                                <ul class="pagination pagination-sm m-0 float-right">
+
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- /.card -->
+                    </div>
+
+
+
+
+
+
+                    <div class="col-lg-6">
+                        <div class="card card-purple">
+                            <div class="card-header">
+                                <h3 class="card-title">
+                                    <i class="fas fa-fan"></i>
+                                    Ano Letivo: dias úteis
+                                </h3>
+                                <div class="card-tools">
+                                    <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <h6 class="card-title">1 Special title treatment</h6>
+
+                                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+
+                                <table class="table text-center table-bordered table-striped">
+                                    <thead>
+                                    <tr>
+
+                                        <th> Feriado</th>
+                                        <th> Dia</th>
+                                        <th> Dia da semana</th>
+
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+
+                                    <tr>
+                                        <td>Dia da Liberdade</td>
+                                        <td>25/04/2023</td>
+                                        <td>5ªfeira</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Dia do trabalhador</td>
+                                        <td>1/5/2023</td>
+                                        <td>6ªFeira</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+
+
+                            </div>
+                            <div class="card-footer clearfix">
+                                <ul class="pagination pagination-sm m-0 float-right">
+                                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.col-md-6 -->
+
+                </div>
+
+                <div class="row">
+
+                    <div class="col-lg-6">
+                        <div class="card card-success">
+                            <div class="card-header">
+                                <h3 class="card-title">
+                                    <i class="fas fa-fan"></i>
+                                    Feriados municipal e fixos
+                                </h3>
+                                <div class="card-tools">
+                                    <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <p class="card-text">
+                                    Some quick example text to build on the card title and make up the bulk of the card's
+                                    content.
+                                </p>
+                                <table class="table text-center table-bordered table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th> Feriado</th>
+                                        <th> Dia</th>
+                                        <th> Dia da semana</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for f in lista_feriados %}
+                                    <tr>
+                                        <td>Ano novo</td>
+                                        <td>{{ f|date:"d M Y" }}</td>
+                                        <td>{{ f|date:"l" }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                    <tr>
+                                        <td>Dia da Liberdade</td>
+                                        <td>25/04/2023</td>
+                                        <td>5ªfeira</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Dia do trabalhador</td>
+                                        <td>1/5/2023</td>
+                                        <td>6ªFeira</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+
+                            </div>
+                            <div class="card-footer clearfix">
+                                <ul class="pagination pagination-sm m-0 float-right">
+                                    <a href="#" class="card-link">subir</a>
+                                </ul>
+                            </div>
+                        </div><!-- /.card -->
+                    </div> <!-- /.col-lg-6 -->
+
+
+                    <div class="col-lg-6">
+                        <div class="card card-orange">
+                            <div class="card-header">
+                                <h3 class="card-title">
+                                    <i class="fas fa-fan"></i>
+                                    Carnaval
+                                </h3>
+                                <div class="card-tools">
+                                    <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <h6 class="card-title">2 Special title treatment</h6>
+
+                                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+
+                                <table class="table text-center table-bordered table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th> Dia</th>
+                                        <th> Dia da semana</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td>20/2/2023</td>
+                                        <td>2ªfeira</td>
+                                    </tr>
+                                    <tr>
+                                        <td>21/2/2023</td>
+                                        <td>3ªfeira</td>
+                                    </tr>
+                                    <tr>
+                                        <td>22/2/2023</td>
+                                        <td>4ªFeira</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+
+                            </div>
+                            <div class="card-footer clearfix">
+                                <ul class="pagination pagination-sm m-0 float-right">
+                                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.row -->
+            </div><!-- /.container-fluid -->
+        </div>
+        <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+
+{% endblock %}

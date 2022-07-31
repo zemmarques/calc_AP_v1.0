@@ -23,4 +23,5 @@ urlpatterns = [
     path('', views.homepage, name='homepage'),
     path('resultados/', views.show_results, name='show_results'),
     path('ajax/load-feriados/', views.load_feriados, name='ajax_load_feriados'),
+    path('ajax/load-fim-ano/', views.load_fim_ano, name='ajax_load_fim_ano'),
 ]
