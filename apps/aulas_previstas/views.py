@@ -31,10 +31,14 @@ def imprime_dias(msg, dicionario):
 
 
 def load_feriados(request):
-    name_id = request.GET.get('ano_letivo')
-    print(request)
-    feriados = Feriado.objects.filter(ano_letivo_id=name_id, tipo="municipal").order_by('concelho')
-    print(feriados)
+    try:
+        name_id = request.GET.get('ano_letivo')
+        print(request)
+        feriados = Feriado.objects.filter(ano_letivo_id=name_id, tipo="municipal").order_by('concelho')
+        print(feriados)
+    except (ValueError, Feriado.DoesNotExist):
+        feriados = Feriado.objects.none()
+
     return render(
         request,
         'aulas_previstas/feriado_dropdown_list_options.html',
@@ -43,17 +47,21 @@ def load_feriados(request):
 
 
 def load_fim_ano(request):
-    name_id = request.GET.get('ano_letivo')
-    grade = request.GET.get('grade')
-    periodo = Periodo.objects.get(ano_letivo_id=name_id, tipo=grade)
-    p_data = periodo.end_date
-    print(p_data)
+    try:
+        name_id = request.GET.get('ano_letivo')
+        grade = request.GET.get('grade')
+        periodo = Periodo.objects.get(ano_letivo_id=name_id, tipo=grade)
+        p_data = periodo.end_date
+        print(p_data)
+    except (ValueError, Periodo.DoesNotExist):
+        p_data = ''
 
     return render(
         request,
         'aulas_previstas/data_fim_ano.html',
         {'fim_ano': p_data}
     )
+
 
 def calculo_previstas(request, data, ):
     """ Calcula as aulas previstas para um ano letivo """
@@ -236,7 +244,7 @@ def homepage(request):
             return render(request, template_name, context)
         else:
             if form.errors:
-                messages.error(request, "Falha no registo! Verifique os campos do formulário.")
+                messages.error(request, "Falha na inserção de dados! Verifique os campos do formulário.")
             template_name = "aulas_previstas/homepage.html"
             context = {"form": form}
             return render(request, template_name, context)

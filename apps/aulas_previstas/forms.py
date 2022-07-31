@@ -47,6 +47,7 @@ class AnoLetivoForm(ModelForm):
     )
     fim_ano = forms.DateField(
         required=False,
+        initial="Campo automático",
     )
     fim_1s = forms.DateField(
         label="FIM do 1ºSemestre",
@@ -55,8 +56,7 @@ class AnoLetivoForm(ModelForm):
     )
     inicio_2s = forms.DateField(
         label="Início do 2ºSemestre",
-        required=False,
-
+        required=True,
     )
     feriado_movel = ModelChoiceField(
         queryset=Feriado.objects.filter(tipo="municipal"),

@@ -307,7 +307,7 @@
                                     <!-- /.submit button -->
                                     <div class="row">
                                         <div class="col text-center" >
-                                            <button type="submit" class="btn btn-primary btn-block">Calcular</button>
+                                            <button type="submit" id="calculaP" class="btn btn-primary btn-block">Calcular</button>
                                         </div>
                                     </div>
 
@@ -371,44 +371,43 @@
         </div>
         <!-- /.content -->
     </div><!-- /.content-wrapper -->
+
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script>
         $("#id_name").change(function () {
-            var url = $("#feriadoForm").attr("data-feriados-url");  // get the url of the `load_cities` view
-            var ano_letivoId = $(this).val();  // get the selected country ID from the HTML input
+
+            var url = $("#feriadoForm").attr("data-feriados-url");      // get the url of the `load_feriados` view
+            var ano_letivoId = $(this).val();                           // get the selected 'ano letivo' ID from the HTML input
+
+            var grade = $("#id_grade").val()                            // get the 'grade' ID from the input field
+            var url2 = $("#feriadoForm").attr("date-fim_ano-url");      // get the url of the `load_fim_ano` view
 
 
-            $.ajax({                       // initialize an AJAX request
-                url: url,                    // set the url of the request (= localhost:8000/ajax/load-feriados/)
+            $.ajax({                                        // initialize an AJAX request
+                url: url,                                   // set the url of the request (= localhost:8000/ajax/load-feriados/)
                 data: {
-                    'ano_letivo': ano_letivoId       // add the ano letivo id to the GET parameters
+                    'ano_letivo': ano_letivoId              // add the ano letivo id to the GET parameters
                 },
-                success: function (data) {   // `data` is the return of the `load_feriados` view function
-                    $("#id_feriado_movel").html(data);  // replace the contents of the feriado input with the data that came from the server
+                success: function (data) {                  // `data` is the return of the `load_feriados` view function
+                    $("#id_feriado_movel").html(data);      // replace the contents of the feriado input with the data that came from the server
                 }
             });
 
-        });
-
-        $("#id_name").change(function () {
-            var url = $("#feriadoForm").attr("date-fim_ano-url");  // get the url of the `load_cities` view
-            var ano_letivoId = $(this).val();  // get the selected country ID from the HTML input
-            var grade = $("#id_grade").val()
-
-            $.ajax({                       // initialize an AJAX request
-                url: url,                    // set the url of the request (= localhost:8000/ajax/load-feriados/)
+            $.ajax({                                        // initialize an AJAX request
+                url: url2,                                  // set the url of the request (= localhost:8000/ajax/load--fim-ano/)
                 data: {
-                    'ano_letivo': ano_letivoId,  // add the ano letivo id to the GET parameters
-                    'grade': grade
+                    'ano_letivo': ano_letivoId,             // add the ano letivo id to the GET parameters
+                    'grade': grade                          // add the grade id to the GET parameters
                 },
-                success: function (data) {   // `data` is the return of the `load_feriados` view function
-                    $("#id_fim_ano").html(data);  // replace the contents of the feriado input with the data that came from the server
+                success: function (data) {                  // `data` is the return of the `load_fim_ano` view function
+                    $("#id_fim_ano").html(data);            // replace the contents of the feriado input with the data that came from the server
                     $("#id_fim_ano").attr("value", data);
-                    //$("#id_fim_ano").attr("disabled", "disabled");
                 }
             });
 
         });
+
+
 
         $("#id_grade").change(function () {
             var url = $("#feriadoForm").attr("date-fim_ano-url");  // get the url of the `load_cities` view
@@ -428,22 +427,40 @@
                 }
             });
         });
-        $("#id_disciplina").change(function () {
 
-             $("#id_fim_1s").required = false;
+
+        $("#id_disciplina").change(function (qualifiedName, value) {
 
             if($("#id_disciplina_0").is(':checked')) {
                 $("#disciplina_div").hide();
-                $("#id_fim_1s").required = false;
 
             }
             if($("#id_disciplina_1").is(':checked')) {
                 $("#disciplina_div").show();
 
-
             }
 
         });
+
+
+        $("#calculaP").click(function (eventObj) {
+
+            if($("#id_disciplina_0").is(':checked')) {
+                $("#id_fim_1s").val("1974-1-31")
+                $("#id_inicio_2s").val("1974-1-1");
+            }
+
+
+        });
+
+        $( document ).ready(function() {
+            // Handler for .ready() called.
+            if($("#id_disciplina_1").is(':checked')) {
+                $("#disciplina_div").show();
+            }
+        });
+
+
     </script>
 
 {% endblock %}
