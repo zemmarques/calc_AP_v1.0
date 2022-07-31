@@ -37,7 +37,8 @@
                             <div class="card-body card-outline card-primary">
                                 <form method="post" id="feriadoForm"
                                       data-feriados-url="{% url 'aulas_previstas:ajax_load_feriados' %}"
-                                      date-fim_ano-url="{% url 'aulas_previstas:ajax_load_fim_ano' %}" novalidate>
+                                      date-fim_ano-url="{% url 'aulas_previstas:ajax_load_fim_ano' %}"
+                                      date-inicio_ano-url="{% url 'aulas_previstas:ajax_load_inicio_ano' %}" novalidate>
                                     {% csrf_token %}
 
                                     <!-- /.Campos do formulário -->
@@ -117,7 +118,7 @@
                                                                     <i class="fas fa-calendar-day"></i>
                                                                 </span>
                                                             </div>
-                                                            {% render_field field class="form-control float-right" value="2022-04-20" id="reservation" placeholder=field.label %}
+                                                            {% render_field field class="form-control float-right"  data-date-format="dd/mm/yyyy" id="id_inicio_ano" placeholder=field.label %}
                                                         </div>
                                                     </div>
 
@@ -245,6 +246,7 @@
                                                     <span class="input-group-text" id="inputGroup-sizing-sm">Tempo(s)</span>
                                                 </div>
                                             </div>
+
                                         {% endif %}
 
                                         <!-- /.3ªFEIRA field -->
@@ -297,6 +299,13 @@
                                                     <span class="input-group-text" id="inputGroup-sizing-sm">Tempo(s)</span>
                                                 </div>
                                             </div>
+
+                                            {% if form.non_field_errors %}
+                                                <h6 class="text-blue" style="list-style-type:square;">
+                                                    {{ form.non_field_errors }}
+                                                </h6>
+                                            {% endif %}
+
                                         {% endif %}
 
                                     {% endfor %}

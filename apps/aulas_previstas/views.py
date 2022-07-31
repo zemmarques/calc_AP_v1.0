@@ -63,6 +63,28 @@ def load_fim_ano(request):
     )
 
 
+def load_inicio_ano(request):
+    try:
+        name_id = request.GET.get('ano_letivo')
+        periodo = Periodo.objects.get(ano_letivo_id=name_id, tipo="1p")
+        start_date1 = periodo.start_date1
+        print(start_date1)
+        start_date2 = periodo.start_date2
+        print(start_date2)
+    except (ValueError, Periodo.DoesNotExist):
+        start_date1 = ''
+        start_date2 = ''
+
+    return render(
+        request,
+        'aulas_previstas/data_inicio_ano.html',
+        {
+            'inicio_ano_1': start_date1,
+            'inicio_ano_2': start_date2,
+         }
+    )
+
+
 def calculo_previstas(request, data, ):
     """ Calcula as aulas previstas para um ano letivo """
 

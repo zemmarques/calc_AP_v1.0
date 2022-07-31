@@ -7,6 +7,10 @@ $("#id_name").change(function () {
     var grade = $("#id_grade").val()                            // get the 'grade' ID from the input field
     var url2 = $("#feriadoForm").attr("date-fim_ano-url");      // get the url of the `load_fim_ano` view
 
+    var url3 = $("#feriadoForm").attr("date-inicio_ano-url");      // get the url of the `load_inicio_ano` view
+
+
+
 
     $.ajax({                                     // initialize an AJAX request
         url: url,                                       // set the url of the request (= localhost:8000/ajax/load-feriados/)
@@ -26,6 +30,16 @@ $("#id_name").change(function () {
         },
         success: function (data) {                              // `data` is the return of the `load_fim_ano` view function
             $("#id_fim_ano").html(data).attr("value", data);    // replace the contents of the feriado input with the data that came from the server
+        }
+    });
+
+    $.ajax({                                 // initialize an AJAX request
+        url: url3,                                  // set the url of the request (= localhost:8000/ajax/load--fim-ano/)
+        data: {
+            'ano_letivo': ano_letivoId,             // add the ano letivo id to the GET parameters
+        },
+        success: function (data) {                                  // `data` is the return of the `load_inicio_ano` view function
+            $("#id_inicio_ano").html(data).attr("value", data);     // replace the contents of the feriado input with the data that came from the server
         }
     });
 

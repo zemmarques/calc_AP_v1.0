@@ -1,3 +1,4 @@
+from django.core.exceptions import ValidationError
 from django.forms import ModelForm
 from django import forms
 from django.forms.models import ModelChoiceField
@@ -107,6 +108,24 @@ class AnoLetivoForm(ModelForm):
                 pass  # invalid input from the client; ignore and fallback to empty City queryset
         elif self.instance.pk:
             self.fields['feriado_movel'].queryset = self.instance.name.feriado_set.order_by('name')
+
+    def clean(self):
+        super(AnoLetivoForm, self).clean()
+        d_2 = self.cleaned_data['segunda']
+        d_3 = self.cleaned_data['terca']
+        d_4 = self.cleaned_data['quarta']
+        d_5 = self.cleaned_data['quinta']
+        d_6 = self.cleaned_data['sexta']
+
+        soma = int(d_2) + int(d_3) + int(d_4) + int(d_5) + int(d_6)
+        print("    OIIIIIIIIII   ")
+        print(soma)
+        if soma == 0:
+            raise ValidationError("Tem que inserir a carga semanal da disciplina!")
+
+
+
+
 
 # Links úteis:
 
