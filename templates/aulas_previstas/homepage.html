@@ -34,7 +34,6 @@
                                     <b><i class="fas fa-calculator"></i> Calc</b> @:P
                                 </a>
                             </div>
-
                             <div class="card-body card-outline card-primary">
                                 <form method="post" id="feriadoForm"
                                       data-feriados-url="{% url 'aulas_previstas:ajax_load_feriados' %}"
@@ -59,7 +58,8 @@
                                                             {% render_field field class="form-control" %}
                                                         </div>
                                                     </div>
-                                                    <!-- /.Erros no formulário fields -->
+
+                                                    <!-- /.Erros neste field -->
                                                     {% for error in field.errors %}
                                                         <h6 class="text-blue" style="list-style-type:square;">
                                                             {{ error }}
@@ -71,7 +71,6 @@
 
                                         <!-- /.Nivel de ensino field -->
                                         {% if field.name == "grade" %}
-
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label>Nível de ensino:</label>
@@ -85,16 +84,16 @@
                                                         </div>
                                                     </div>
 
-                                                    <!-- /.Erros no formulário fields -->
+                                                    <!-- /.Erros neste field -->
                                                     {% for error in field.errors %}
                                                         <h6 class="text-blue" style="list-style-type:square;">
                                                             {{ error }}
                                                         </h6>
                                                     {% endfor %}
-
-
                                                 </div>
-                                            </div>
+
+                                            </div> <!-- /.div class row -->
+
                                         {% endif %}
 
                                         <!-- /.Disciplina anual/semestral field -->
@@ -122,16 +121,14 @@
                                                         </div>
                                                     </div>
 
-                                                    <!-- /.Erros no formulário fields -->
+                                                    <!-- /.Erros neste field -->
                                                     {% for error in field.errors %}
                                                         <h6 class="text-blue" style="list-style-type:square;">
                                                             {{ error }}
                                                         </h6>
                                                     {% endfor %}
-
-
-
                                                 </div>
+
                                         {% endif %}
 
                                         <!-- /.data fim do Ano Letivo field disbled -->
@@ -149,17 +146,17 @@
                                                         </div>
                                                     </div>
 
-
-                                                    <!-- /.Erros no formulário fields -->
+                                                    <!-- /.Erros neste field -->
                                                     {% for error in field.errors %}
                                                         <h6 class="text-blue" style="list-style-type:square;">
                                                             {{ error }}
                                                         </h6>
                                                     {% endfor %}
                                                 </div>
-                                            </div>
-                                        {% endif %}
 
+                                            </div> <!-- /.div class row -->
+
+                                        {% endif %}
 
                                         <!-- /.data fim do 1ºSem field -->
                                         {% if field.name == "fim_1s" %}
@@ -177,15 +174,14 @@
                                                         </div>
                                                     </div>
 
-                                                <!-- /.Erros no formulário fields -->
+                                                    <!-- /.Erros no formulário fields -->
                                                     {% for error in field.errors %}
                                                         <h6 class="text-blue" style="list-style-type:square;">
                                                             {{ error }}
                                                         </h6>
                                                     {% endfor %}
-
-
                                                 </div>
+
                                         {% endif %}
 
                                         <!-- /.data início do 2ºSem field -->
@@ -203,18 +199,38 @@
                                                         </div>
                                                     </div>
 
-                                                    <!-- /.Erros no formulário fields -->
+                                                    <!-- /.Erros neste field -->
                                                     {% for error in field.errors %}
                                                         <h6 class="text-blue" style="list-style-type:square;">
                                                             {{ error }}
                                                         </h6>
                                                     {% endfor %}
-
-
                                                 </div>
-                                            </div>
+
+                                            </div> <!-- /.div class row -->
+
                                         {% endif %}
 
+                                        <!-- /.Feriado municipal field -->
+                                        {% if field.name == "feriado_movel" %}
+                                            <label>Feriado Municipal</label>
+                                            <div class="input-group mb-3">
+                                                {% render_field field class="form-control" %}
+                                                <div class="input-group-append">
+                                                    <div class="input-group-text">
+                                                        <span class="fas fa-calendar-day"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- /.Erros no formulário fields -->
+                                            {% for error in field.errors %}
+                                                <h6 class="text-blue" style="list-style-type:square;">
+                                                    {{ error }}
+                                                </h6>
+                                            {% endfor %}
+
+                                        {% endif %}
 
                                         <!-- /.Carga semanal fields -->
                                         <!-- /.2ªFEIRA field -->
@@ -283,24 +299,6 @@
                                             </div>
                                         {% endif %}
 
-                                        <!-- /.Feriado municipal field -->
-                                        {% if field.name == "feriado_movel" %}
-                                            <label>Feriado Municipal</label>
-                                            <div class="input-group mb-3">
-                                                {% render_field field class="form-control" %}
-                                                <div class="input-group-append">
-                                                    <div class="input-group-text">
-                                                        <span class="fas fa-calendar-day"></span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <!-- /.Erros no formulário fields -->
-                                            {% for error in field.errors %}
-                                                <h6 class="text-blue" style="list-style-type:square;">
-                                                    {{ error }}
-                                                </h6>
-                                            {% endfor %}
-                                        {% endif %}
                                     {% endfor %}
                                     <br>
 
@@ -371,7 +369,5 @@
         </div>
         <!-- /.content -->
     </div><!-- /.content-wrapper -->
-
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 
 {% endblock %}
