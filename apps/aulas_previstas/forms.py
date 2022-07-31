@@ -115,3 +115,6 @@ class AnoLetivoForm(ModelForm):
 
 # segui este!! funcionou
 # https://simpleisbetterthancomplex.com/tutorial/2018/01/29/how-to-implement-dependent-or-chained-dropdown-list-with-django.html
+
+# vídeo de datepicker
+# https://www.google.com/search?q=put+jquery+file+django&oq=put+jquery+file+django&aqs=chrome..69i57j33i160j33i22i29i30.12406j0j7&sourceid=chrome&ie=UTF-8#kpvalbx=_X63mYuaVEdKYlwSRwL3oBw12

@@ -54,7 +54,7 @@ def load_fim_ano(request):
         p_data = periodo.end_date
         print(p_data)
     except (ValueError, Periodo.DoesNotExist):
-        p_data = ''
+        p_data = 'Campo automático'
 
     return render(
         request,
