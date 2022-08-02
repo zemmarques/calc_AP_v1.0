@@ -93,6 +93,10 @@ def calculo_previstas(request, data, ):
         name=data['name'],
     )
 
+    # Data de início do ano letivo definida pelo
+    # utilizador no formulário
+    user_inicio_al = data['inicio_ano']
+
     # Seleciona, a partir do formulário, a carga semanal da disciplina.
     # Dicionário "carga_semanal" no formato (dia da semana: nºtempos)
     carga_semanal = {}
@@ -127,28 +131,35 @@ def calculo_previstas(request, data, ):
         lista_periodos.extend((semestre_1, semestre_2))
         print(" - Semestres selecionados:", lista_periodos)
 
-    # QuerySet com todos os feriados do ano_letivo
+    # Recolhe as datas dos feriados nacionais e do feriado municipal
+    lista_data_feriados = []
     try:
-        feriados = Feriado.objects.filter(ano_letivo=ano_letivo.id)
-        # coloca datas dos feriados numa lista e ordena a lista
-        lista_data_feriados = []
-        for f in feriados:
+        # QuerySet com todos os feriados nacionais do ano_letivo
+        feriados_nacionais = Feriado.objects.filter(ano_letivo=ano_letivo.id, tipo='nacional')
+        # coloca as datas dos feriados nacionais numa lista e ordena a lista
+        for f in feriados_nacionais:
             lista_data_feriados.append(f.data)
         lista_data_feriados.sort()
-        print(" - Feriados:", lista_data_feriados)
+        print(" - Feriados nacionais:", lista_data_feriados)
+
+        # recolhe a data do feriado municipal introduzido pelo
+        # user no form e adiciona à lista_data_feriados.
+        feriado_municipal = Feriado.objects.get(ano_letivo=ano_letivo.id, data=data['feriado_movel'].data)
+        data_feriado_municipal = feriado_municipal.data
+        print(" - Feriado municipal:", feriado_municipal)
+        lista_data_feriados.append(data_feriado_municipal)
 
     except():
         print('     # Erro_2 - Não foram definidos feriados para o ano letivo:', ano_letivo)
 
     # Retorna lista com as datas do Carnaval
+    lista_dias_carnaval = []
     try:
         carnaval = Periodo.objects.filter(ano_letivo=ano_letivo.id, tipo="carnaval")
-        lista_dias_carnaval = []
         for c in carnaval:
             for single_date in daterange(c.start_date1, c.end_date):
                 lista_dias_carnaval.append(single_date)
         print(" - Dias de Carnaval:", lista_dias_carnaval)
-
     except():
         print('     # Erro_3 - Não foram definidas as datas do Carnaval:', ano_letivo)
 
@@ -161,8 +172,15 @@ def calculo_previstas(request, data, ):
         lista_dias_uteis = []
         lista_dias_aula = []
 
+        # permite utilizar a data de inicio do 1periodo definida pelo user.
+        if p.tipo == '1p' and user_inicio_al:
+            start_date1 = user_inicio_al
+        else:
+            start_date1 = p.start_date1
+        end_date = p.end_date
+
         # TODO: corrigir a data start_date1 pela data do início do ano introduzida pelo user no formulário
-        for single_date in daterange(p.start_date1, p.end_date):
+        for single_date in daterange(start_date1, end_date):
             # percorre todos os dias do período
             # TODO: corrigir lista_data_feriados e lista_dias_carnaval - terminar programa no try/cach se não encontrar
             if single_date not in lista_data_feriados and single_date not in lista_dias_carnaval and \
