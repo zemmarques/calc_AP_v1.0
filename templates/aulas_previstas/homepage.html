@@ -62,8 +62,12 @@
 
                                                     <!-- /.Erros neste field -->
                                                     {% for error in field.errors %}
-                                                        <h6 class="text-blue" style="list-style-type:square;">
-                                                            {{ error }}
+                                                        <h6 class="text-danger" style="list-style-type:square;">
+                                                            <ul>
+                                                                <li>
+                                                                    {{ error }}
+                                                                </li>
+                                                            </ul>
                                                         </h6>
                                                     {% endfor %}
                                                 </div>
@@ -87,8 +91,12 @@
 
                                                     <!-- /.Erros neste field -->
                                                     {% for error in field.errors %}
-                                                        <h6 class="text-blue" style="list-style-type:square;">
-                                                            {{ error }}
+                                                        <h6 class="text-danger" style="list-style-type:square;">
+                                                            <ul>
+                                                                <li>
+                                                                    {{ error }}
+                                                                </li>
+                                                            </ul>
                                                         </h6>
                                                     {% endfor %}
                                                 </div>
@@ -111,21 +119,26 @@
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     <div class="form-group">
-                                                        <label>Início do Ano letivo:</label>
+                                                        <label id="label_inicio">Início do Ano letivo:</label>
                                                         <div class="input-group date mb-3">
                                                             <div class="input-group-prepend">
                                                                 <span class="input-group-text">
                                                                     <i class="fas fa-calendar-day"></i>
                                                                 </span>
                                                             </div>
-                                                            {% render_field field class="form-control float-right"  data-date-format="dd/mm/yyyy" id="id_inicio_ano" placeholder=field.label %}
+                                                            {% render_field field class="form-control float-right" id="id_inicio_ano" %}
                                                         </div>
+                                                        <p class="text-blue" id="p_inicio_ano"></p>
                                                     </div>
 
                                                     <!-- /.Erros neste field -->
                                                     {% for error in field.errors %}
-                                                        <h6 class="text-blue" style="list-style-type:square;">
-                                                            {{ error }}
+                                                        <h6 class="text-danger" style="list-style-type:square;">
+                                                            <ul>
+                                                                <li>
+                                                                    {{ error }}
+                                                                </li>
+                                                            </ul>
                                                         </h6>
                                                     {% endfor %}
                                                 </div>
@@ -149,8 +162,12 @@
 
                                                     <!-- /.Erros neste field -->
                                                     {% for error in field.errors %}
-                                                        <h6 class="text-blue" style="list-style-type:square;">
-                                                            {{ error }}
+                                                        <h6 class="text-danger" style="list-style-type:square;">
+                                                            <ul>
+                                                                <li>
+                                                                    {{ error }}
+                                                                </li>
+                                                            </ul>
                                                         </h6>
                                                     {% endfor %}
                                                 </div>
@@ -177,8 +194,12 @@
 
                                                     <!-- /.Erros no formulário fields -->
                                                     {% for error in field.errors %}
-                                                        <h6 class="text-blue" style="list-style-type:square;">
-                                                            {{ error }}
+                                                        <h6 class="text-danger" style="list-style-type:square;">
+                                                            <ul>
+                                                                <li>
+                                                                    {{ error }}
+                                                                </li>
+                                                            </ul>
                                                         </h6>
                                                     {% endfor %}
                                                 </div>
@@ -202,8 +223,12 @@
 
                                                     <!-- /.Erros neste field -->
                                                     {% for error in field.errors %}
-                                                        <h6 class="text-blue" style="list-style-type:square;">
-                                                            {{ error }}
+                                                        <h6 class="text-danger" style="list-style-type:square;">
+                                                            <ul>
+                                                                <li>
+                                                                    {{ error }}
+                                                                </li>
+                                                            </ul>
                                                         </h6>
                                                     {% endfor %}
                                                 </div>
@@ -226,8 +251,12 @@
 
                                             <!-- /.Erros no formulário fields -->
                                             {% for error in field.errors %}
-                                                <h6 class="text-blue" style="list-style-type:square;">
-                                                    {{ error }}
+                                                <h6 class="text-danger" style="list-style-type:square;">
+                                                    <ul>
+                                                        <li>
+                                                            {{ error }}
+                                                        </li>
+                                                    </ul>
                                                 </h6>
                                             {% endfor %}
 
@@ -301,8 +330,10 @@
                                             </div>
 
                                             {% if form.non_field_errors %}
-                                                <h6 class="text-blue" style="list-style-type:square;">
+                                                <h6 class="text-danger" style="list-style-type:square;">
+
                                                     {{ form.non_field_errors }}
+
                                                 </h6>
                                             {% endif %}
 

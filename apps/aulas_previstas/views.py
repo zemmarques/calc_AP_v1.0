@@ -72,7 +72,7 @@ def load_inicio_ano(request):
         start_date2 = periodo.start_date2
         print(start_date2)
     except (ValueError, Periodo.DoesNotExist):
-        start_date1 = ''
+        start_date1 = 'Data de início do ano letivo'
         start_date2 = ''
 
     return render(
@@ -291,7 +291,7 @@ def show_results(request):
     return render(request, template_name, context)
 
 # TODO validar as datas do formulário
-# todo validar carga semanal... pensar como fazer
+# __FEITO__ validar carga semanal... pensar como fazer
 # todo colocar datapicker nos campos data ( início de ano letivo, fim 1S e Inicio 2S )
 # todo corrigir os cálculo de previstas... ver TODOs acima neste ficheiro
 # todo verificar cálculo quando disciplina semestral

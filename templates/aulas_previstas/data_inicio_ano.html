@@ -1,10 +1,5 @@
 {% if inicio_ano_1 and inicio_ano_2 %}
-    entre {{ inicio_ano_1 }} e {{ inicio_ano_2 }}
 
-{% elif inicio_ano_1 %}
-    {{ inicio_ano_1 }}
-
-{% elif inicio_ano_2 %}
-    {{ inicio_ano_2 }}
+    ( Data entre {{ inicio_ano_1|date:"d/m" }} e {{ inicio_ano_2|date:"d/m" }} )
 
 {% endif %}

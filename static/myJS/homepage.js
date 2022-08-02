@@ -9,9 +9,6 @@ $("#id_name").change(function () {
 
     var url3 = $("#feriadoForm").attr("date-inicio_ano-url");      // get the url of the `load_inicio_ano` view
 
-
-
-
     $.ajax({                                     // initialize an AJAX request
         url: url,                                       // set the url of the request (= localhost:8000/ajax/load-feriados/)
         data: {
@@ -29,7 +26,7 @@ $("#id_name").change(function () {
             'grade': grade                          // add the grade id to the GET parameters
         },
         success: function (data) {                              // `data` is the return of the `load_fim_ano` view function
-            $("#id_fim_ano").html(data).attr("value", data);    // replace the contents of the feriado input with the data that came from the server
+            $("#id_fim_ano").html(data).attr('value', data);    // replace the contents of the feriado input with the data that came from the server
         }
     });
 
@@ -39,7 +36,7 @@ $("#id_name").change(function () {
             'ano_letivo': ano_letivoId,             // add the ano letivo id to the GET parameters
         },
         success: function (data) {                                  // `data` is the return of the `load_inicio_ano` view function
-            $("#id_inicio_ano").html(data).attr("value", data);     // replace the contents of the feriado input with the data that came from the server
+            $("#p_inicio_ano").html(data);     // replace the contents of the feriado input with the data that came from the server
         }
     });
 
@@ -65,7 +62,7 @@ $("#id_grade").change(function () {
 });
 
 // função mudança do campo disciplina (annual/semestral) na form
-$("#id_disciplina").change(function (qualifiedName, value) {
+$("#id_disciplina").change(function () {
 
     // mostra/esconde div com campos de data de início e fim de disciplina semestral
     if($("#id_disciplina_0").is(':checked')) {      // disciplina anual
@@ -78,7 +75,7 @@ $("#id_disciplina").change(function (qualifiedName, value) {
 });
 
 // função click em botão "calcular" do formulário
-$("#calculaP").click(function (eventObj) {
+$("#calculaP").click(function () {
 
     // Se disciplina=anual atribui uma data fictícia aos campos #id_fim_1s e #id_fim_1s
     // faz isto por estes campos serem obrigatórios. As datas são descartadas no backend.
@@ -96,3 +93,15 @@ $( document ).ready(function() {
         $("#disciplina_div").show();
     }
 });
+
+
+// função click em botão "calcular" do formulário
+$("#id_inicio_ano").on( "click", function () {
+
+   // $(this).val('');
+});
+
+
+// reformular o meu js
+// ver este código
+//https://stackoverflow.com/questions/46702685/setting-value-of-input-field-via-jquery-doesnt-always-refresh-that-field

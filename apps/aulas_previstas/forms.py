@@ -45,6 +45,13 @@ class AnoLetivoForm(ModelForm):
     )
     inicio_ano = forms.DateField(
         label="Data de início do ano letivo",
+        widget=forms.DateInput(
+            format='%Y-%m-%d',
+            attrs={
+                'type': 'date',
+            }
+        ),
+        input_formats=('%Y-%m-%d',)
     )
     fim_ano = forms.DateField(
         required=False,
@@ -135,5 +142,5 @@ class AnoLetivoForm(ModelForm):
 # segui este!! funcionou
 # https://simpleisbetterthancomplex.com/tutorial/2018/01/29/how-to-implement-dependent-or-chained-dropdown-list-with-django.html
 
-# vídeo de datepicker
+# vídeo de datepicker ... video de um inventário!! boa
 # https://www.google.com/search?q=put+jquery+file+django&oq=put+jquery+file+django&aqs=chrome..69i57j33i160j33i22i29i30.12406j0j7&sourceid=chrome&ie=UTF-8#kpvalbx=_X63mYuaVEdKYlwSRwL3oBw12
