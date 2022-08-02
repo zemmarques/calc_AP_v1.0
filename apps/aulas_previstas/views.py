@@ -72,8 +72,8 @@ def load_inicio_ano(request):
         start_date2 = periodo.start_date2
         print(start_date2)
     except (ValueError, Periodo.DoesNotExist):
-        start_date1 = 'Data de início do ano letivo'
-        start_date2 = ''
+        start_date1 = None
+        start_date2 = None
 
     return render(
         request,
