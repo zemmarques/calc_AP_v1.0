@@ -51,7 +51,7 @@ def load_fim_ano(request):
         name_id = request.GET.get('ano_letivo')
         grade = request.GET.get('grade')
         periodo = Periodo.objects.get(ano_letivo_id=name_id, tipo=grade)
-        p_data = periodo.end_date
+        p_data = periodo.end_date.__format__("%d/%m/%Y")
         print(p_data)
     except (ValueError, Periodo.DoesNotExist):
         p_data = 'Campo automático'

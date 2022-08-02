@@ -59,12 +59,25 @@ class AnoLetivoForm(ModelForm):
     )
     fim_1s = forms.DateField(
         label="FIM do 1ºSemestre",
-        required=True,
-
+        required=False,
+        widget=forms.DateInput(
+            format='%Y-%m-%d',
+            attrs={
+                'type': 'date',
+            }
+        ),
+        input_formats=('%Y-%m-%d',)
     )
     inicio_2s = forms.DateField(
         label="Início do 2ºSemestre",
-        required=True,
+        required=False,
+        widget=forms.DateInput(
+            format='%Y-%m-%d',
+            attrs={
+                'type': 'date',
+            }
+        ),
+        input_formats=('%Y-%m-%d',)
     )
     feriado_movel = ModelChoiceField(
         queryset=Feriado.objects.filter(tipo="municipal"),
@@ -124,11 +137,22 @@ class AnoLetivoForm(ModelForm):
         d_5 = self.cleaned_data['quinta']
         d_6 = self.cleaned_data['sexta']
 
+        disciplina = self.cleaned_data['disciplina']
+        if disciplina == "semestral":
+            fim_1s = self.cleaned_data['fim_1s']
+            inicio_2s = self.cleaned_data['inicio_2s']
+            if not fim_1s:
+                self.add_error('fim_1s', "Este campo é obrigatório.")
+            if not inicio_2s:
+                self.add_error('inicio_2s', "Este campo é obrigatório.")
+
         soma = int(d_2) + int(d_3) + int(d_4) + int(d_5) + int(d_6)
         print("    OIIIIIIIIII   ")
         print(soma)
         if soma == 0:
             raise ValidationError("Tem que inserir a carga semanal da disciplina!")
+
+
 
 
 
@@ -144,3 +168,6 @@ class AnoLetivoForm(ModelForm):
 
 # vídeo de datepicker ... video de um inventário!! boa
 # https://www.google.com/search?q=put+jquery+file+django&oq=put+jquery+file+django&aqs=chrome..69i57j33i160j33i22i29i30.12406j0j7&sourceid=chrome&ie=UTF-8#kpvalbx=_X63mYuaVEdKYlwSRwL3oBw12
+
+# required field com o metodo clean no forms
+# https://stackoverflow.com/questions/65636278/dynamic-required-fields-according-to-users-selection-in-django-form
