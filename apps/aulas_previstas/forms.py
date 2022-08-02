@@ -152,12 +152,6 @@ class AnoLetivoForm(ModelForm):
         if soma == 0:
             raise ValidationError("Tem que inserir a carga semanal da disciplina!")
 
-
-
-
-
-
-
 # Links úteis:
 
 # Implement Dynamic Select Options With Django

@@ -95,6 +95,7 @@ def calculo_previstas(request, data, ):
 
     # seleciona o verbose_name do campo grade
     grade = data['grade']
+    escolaridade = ''
     if grade == '3p_pre':
         escolaridade = "Pré-escolar e 1º ciclo"
     elif grade == '3p_ciclo':
