@@ -290,10 +290,11 @@ def show_results(request):
 
     return render(request, template_name, context)
 
-# TODO validar as datas do formulário
+# TODO validar as datas do formulário ... data de inicio maior que fim etc... etc...
 # __FEITO__ validar carga semanal... pensar como fazer
-# todo colocar datapicker nos campos data ( início de ano letivo, fim 1S e Inicio 2S )
+# __FEITO__ colocar datapicker nos campos data ( início de ano letivo, fim 1S e Inicio 2S )
 # todo corrigir os cálculo de previstas... ver TODOs acima neste ficheiro
+# Todo colocar os dados do formulário num cartão nos results
 # todo verificar cálculo quando disciplina semestral
 # todo homepage.html colocar info nos cartões de ajuda, ao lado do form
 # todo results.html preencher outros cartões
