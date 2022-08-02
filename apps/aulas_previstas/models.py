@@ -128,9 +128,9 @@ class Periodo(models.Model):
     TIPO_OPTIONS = (
         ("1p", "1º Período"),
         ("2p", "2º Período"),
-        ("3p_pre", "3º P - Pré-escolar e 1º ciclo"),
-        ("3p_ciclo", "3º P - 5º, 6º, 7º, 8º e 10º Anos"),
-        ("3p_fim_ciclo", "3º P - 9º, 11ª e 12º Anos"),
+        ("3p_pre", "3ºP - Pré-escolar e 1º ciclo"),
+        ("3p_ciclo", "3ºP - 5º, 6º, 7º, 8º e 10º Anos"),
+        ("3p_fim_ciclo", "3ºP - 9º, 11ª e 12º Anos"),
         ("natal", "Natal"),
         ("carnaval", "Carnaval"),
         ("pascoa", "Páscoa"),

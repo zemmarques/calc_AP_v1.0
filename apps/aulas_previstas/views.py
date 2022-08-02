@@ -93,6 +93,15 @@ def calculo_previstas(request, data, ):
         name=data['name'],
     )
 
+    # seleciona o verbose_name do campo grade
+    grade = data['grade']
+    if grade == '3p_pre':
+        escolaridade = "Pré-escolar e 1º ciclo"
+    elif grade == '3p_ciclo':
+        escolaridade = "5º, 6º, 7º, 8º e 10º Anos"
+    elif grade == '3p_fim_ciclo':
+        escolaridade = "9º, 11º e 12º Anos"
+
     # Data de início do ano letivo definida pelo
     # utilizador no formulário
     user_inicio_al = data['inicio_ano']
@@ -256,7 +265,7 @@ def calculo_previstas(request, data, ):
     context = {
         'ano_letivo': ano_letivo,  # objeto ano letivo
         'disciplina': data['disciplina'],   # tipo disciplina anual/semestral
-        'escolaridade': data['grade'],  # tipo escolaridade (1p, 2p, 3p_pre ...) !!!! todo enviar o objeto Período
+        'escolaridade': escolaridade,  # tipo escolaridade (1p, 2p, 3p_pre ...) -> verbose name
         'lista_periodos': lista_periodos,  # lista de objetos periodos (períodos ou semestres)
         'lista_feriados': lista_data_feriados,  # lista de datas
         'lista_carnaval': lista_dias_carnaval,  # lista de datas
