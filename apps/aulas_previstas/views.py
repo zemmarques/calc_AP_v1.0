@@ -144,7 +144,11 @@ def calculo_previstas(request, data, ):
 
         # recolhe a data do feriado municipal introduzido pelo
         # user no form e adiciona à lista_data_feriados.
-        feriado_municipal = Feriado.objects.get(ano_letivo=ano_letivo.id, data=data['feriado_movel'].data)
+        feriado_municipal = Feriado.objects.get(
+            ano_letivo=ano_letivo.id,
+            data=data['feriado_movel'].data,
+            concelho=data['feriado_movel'].concelho,
+        )
         data_feriado_municipal = feriado_municipal.data
         print(" - Feriado municipal:", feriado_municipal)
         lista_data_feriados.append(data_feriado_municipal)
@@ -179,10 +183,9 @@ def calculo_previstas(request, data, ):
             start_date1 = p.start_date1
         end_date = p.end_date
 
-        # TODO: corrigir a data start_date1 pela data do início do ano introduzida pelo user no formulário
         for single_date in daterange(start_date1, end_date):
             # percorre todos os dias do período
-            # TODO: corrigir lista_data_feriados e lista_dias_carnaval - terminar programa no try/cach se não encontrar
+
             if single_date not in lista_data_feriados and single_date not in lista_dias_carnaval and \
                     single_date.weekday() != 5 and single_date.weekday() != 6:
                 # O dia não é feriado, não é carnaval, não é sábado (5) nem domingo (6).
@@ -252,16 +255,16 @@ def calculo_previstas(request, data, ):
 
     context = {
         'ano_letivo': ano_letivo,  # objeto ano letivo
-        'disciplina': data['disciplina'],
-        'escolaridade': data['grade'],
-        'lista_periodos': lista_periodos,  # lista
-        'lista_feriados': lista_data_feriados,  # lista
-        'lista_carnaval': lista_dias_carnaval,  # lista
+        'disciplina': data['disciplina'],   # tipo disciplina anual/semestral
+        'escolaridade': data['grade'],  # tipo escolaridade (1p, 2p, 3p_pre ...) !!!! todo enviar o objeto Período
+        'lista_periodos': lista_periodos,  # lista de objetos periodos (períodos ou semestres)
+        'lista_feriados': lista_data_feriados,  # lista de datas
+        'lista_carnaval': lista_dias_carnaval,  # lista de datas
         'dias_de_aulas': carga_semanal,  # dicionário com a carga semanal (dia semana: tempos)
         'dicionario_dias_uteis': dicionario_dias_uteis,  # dicionário (periodo: lista de dias uteis)
         'dicionario_dias_aula': dicionario_dias_aula,  # dicionário (periodo: lista de dias de aula)
         'dicionario_tabela_ap': dicionario_tabela_ap,
-        'totais_dicionario_tabela_ap': totais_dicionario_tabela_ap,
+        'totais_dicionario_tabela_ap': totais_dicionario_tabela_ap,     # dicionário de inteiros
     }
 
     return context
@@ -309,9 +312,9 @@ def show_results(request):
     return render(request, template_name, context)
 
 # TODO validar as datas do formulário ... data de inicio maior que fim etc... etc...
-# __FEITO__ validar carga semanal... pensar como fazer
-# __FEITO__ colocar datapicker nos campos data ( início de ano letivo, fim 1S e Inicio 2S )
-# todo corrigir os cálculo de previstas... ver TODOs acima neste ficheiro
+# __FEITO__ todo validar carga semanal... pensar como fazer
+# __FEITO__ todo colocar datapicker nos campos data ( início de ano letivo, fim 1S e Inicio 2S )
+# __FEITO__ todo corrigir os cálculo de previstas... ver TODOs acima neste ficheiro
 # Todo colocar os dados do formulário num cartão nos results
 # todo verificar cálculo quando disciplina semestral
 # todo homepage.html colocar info nos cartões de ajuda, ao lado do form
