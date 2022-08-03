@@ -55,10 +55,12 @@ class TabelaAulasPrevistasPeriodos:
 class TabelaAulasPrevistasSemestres:
     dia_da_semana: int
     carga_semanal: int
-    da_1sem_count: int
-    da_2sem_count: int
-    da_total_count: int
-    ap_1sem_count: int
-    ap_2sem_count: int
-    ap_total_count: int
+    lista_dias_aula_1s: list
+    lista_dias_aula_2s: list
 
+    def conta_weekdays_1sem(self):
+        count = 0
+        for a in self.lista_dias_aula_1s:
+            if a.weekday() == self.dia_da_semana:
+                count = count + 1
+        return count

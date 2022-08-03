@@ -16,6 +16,15 @@ def daterange(start_date, end_date):
         yield start_date + timedelta(n)
 
 
+def funcao_lista_dias_delta_t(epoca):
+    """ Função que recebe o objeto deltaT (objeto do tipo periodo -> Natal, semestre, periodo , Páscoa, Carnaval)
+    e retorna a lista de dias desse intervalo de tempo"""
+    lista_dias = []
+    for single_date in daterange(epoca.start_date1, epoca.end_date):
+        lista_dias.append(single_date)
+    return lista_dias
+
+
 def imprime_dias(msg, dicionario):
     """ Função para imprimir os dias de um dicionário """
 
@@ -81,19 +90,20 @@ def load_inicio_ano(request):
         {
             'inicio_ano_1': start_date1,
             'inicio_ano_2': start_date2,
-         }
+        }
     )
 
 
 def calculo_previstas(request, data, ):
     """ Calcula as aulas previstas para um ano letivo """
 
-    # Define o ano letivo
+    # Seleciona o objeto ano letivo na base de dados
+    # a partir do ano letivo inserido pelo user no formulário
     ano_letivo = AnoLetivo.objects.get(
         name=data['name'],
     )
 
-    # seleciona o verbose_name do campo grade
+    # seleciona o verbose_name a partir do campo grade do formulário
     grade = data['grade']
     escolaridade = ''
     if grade == '3p_pre':
@@ -103,9 +113,10 @@ def calculo_previstas(request, data, ):
     elif grade == '3p_fim_ciclo':
         escolaridade = "9º, 11º e 12º Anos"
 
-    # Data de início do ano letivo definida pelo
-    # utilizador no formulário
-    user_inicio_al = data['inicio_ano']
+    # datas definidas pelo user no formulário
+    user_inicio_al = data['inicio_ano']  # Data de início do ano letivo
+    user_fim_1s = data['fim_1s']  # Data de fim do 1ºSemestre
+    user_inicio_2s = data['inicio_2s']  # Data de início do 2ºSemestre
 
     # Seleciona, a partir do formulário, a carga semanal da disciplina.
     # Dicionário "carga_semanal" no formato (dia da semana: nºtempos)
@@ -127,7 +138,7 @@ def calculo_previstas(request, data, ):
 
     # Retorna uma lista com os objetos periodos (1P, 2P e 3P) ou (sem1 e sem2),
     # conforme os dados do formulário - data['grade']
-    print(" - disciplina:", data['disciplina'])
+    print(" - Disciplina:", data['disciplina'])
     lista_periodos = []
     if data["disciplina"] == 'anual':
         periodo_1 = get_object_or_404(Periodo, ano_letivo=ano_letivo.id, tipo='1p')
@@ -136,8 +147,8 @@ def calculo_previstas(request, data, ):
         lista_periodos.extend((periodo_1, periodo_2, periodo_3))
         print(" - Periodos selecionados:", lista_periodos)
     if data["disciplina"] == 'semestral':
-        semestre_1 = get_object_or_404(Periodo, ano_letivo=ano_letivo.id, tipo='1sem')
-        semestre_2 = get_object_or_404(Periodo, ano_letivo=ano_letivo.id, tipo='2sem')
+        semestre_1 = get_object_or_404(Periodo, ano_letivo=ano_letivo.id, tipo='1p')
+        semestre_2 = get_object_or_404(Periodo, ano_letivo=ano_letivo.id, tipo=data['grade'])
         lista_periodos.extend((semestre_1, semestre_2))
         print(" - Semestres selecionados:", lista_periodos)
 
@@ -166,16 +177,32 @@ def calculo_previstas(request, data, ):
     except():
         print('     # Erro_2 - Não foram definidos feriados para o ano letivo:', ano_letivo)
 
-    # Retorna lista com as datas do Carnaval
+    # Retorna lista com os dias de férias do Natal
+    lista_dias_natal = []
+    try:
+        natal = get_object_or_404(Periodo, ano_letivo=ano_letivo.id, tipo="natal")
+        lista_dias_natal = funcao_lista_dias_delta_t(natal)
+        print(" - Dias de Natal:", lista_dias_natal)
+    except ValueError:
+        print('     # Erro_3 - Não foram definidas as datas do Natal:', ano_letivo)
+
+    # Retorna lista com os dias de férias do Carnaval
     lista_dias_carnaval = []
     try:
-        carnaval = Periodo.objects.filter(ano_letivo=ano_letivo.id, tipo="carnaval")
-        for c in carnaval:
-            for single_date in daterange(c.start_date1, c.end_date):
-                lista_dias_carnaval.append(single_date)
+        carnaval = get_object_or_404(Periodo, ano_letivo=ano_letivo.id, tipo="carnaval")
+        lista_dias_carnaval = funcao_lista_dias_delta_t(carnaval)
         print(" - Dias de Carnaval:", lista_dias_carnaval)
-    except():
+    except ValueError:
         print('     # Erro_3 - Não foram definidas as datas do Carnaval:', ano_letivo)
+
+    # Retorna lista com os dias de férias da Páscoa
+    lista_dias_pascoa = []
+    try:
+        pascoa = get_object_or_404(Periodo, ano_letivo=ano_letivo.id, tipo="pascoa")
+        lista_dias_pascoa = funcao_lista_dias_delta_t(pascoa)
+        print(" - Dias de Páscoa:", lista_dias_pascoa)
+    except ValueError:
+        print('     # Erro_3 - Não foram definidas as datas do Páscoa:', ano_letivo)
 
     # Calcula os dias de aulas segundo o formulário inserido pelo utilizador.
     # — dicionário_dias_uteis no formato -> {Periodo: [lista de dias_úteis]}
@@ -185,27 +212,47 @@ def calculo_previstas(request, data, ):
     for p in lista_periodos:
         lista_dias_uteis = []
         lista_dias_aula = []
+        # inicialização de variáveis para datas
+        start_date1 = 0
+        end_date = 0
 
-        # permite utilizar a data de inicio do 1periodo definida pelo user.
-        if p.tipo == '1p' and user_inicio_al:
-            start_date1 = user_inicio_al
-        else:
-            start_date1 = p.start_date1
-        end_date = p.end_date
+        # disciplina anual (com 3 Períodos)
+        if data["disciplina"] == 'anual':
+            # permite utilizar a data de início do 1periodo inserida pelo user no formulário
+            if p.tipo == '1p':
+                start_date1 = user_inicio_al
+            else:
+                start_date1 = p.start_date1
+            end_date = p.end_date
+
+        # disciplina semestral (com 2 Semestres)
+        if data["disciplina"] == 'semestral':
+            if p.tipo == '1s':
+                start_date1 = user_inicio_al
+                end_date = user_fim_1s
+            else:
+                start_date1 = user_inicio_2s
+                end_date = p.end_date
 
         for single_date in daterange(start_date1, end_date):
             # percorre todos os dias do período
 
-            if single_date not in lista_data_feriados and single_date not in lista_dias_carnaval and \
+            if single_date not in lista_data_feriados and \
+                    single_date not in lista_dias_natal and \
+                    single_date not in lista_dias_carnaval and \
+                    single_date not in lista_dias_pascoa and \
                     single_date.weekday() != 5 and single_date.weekday() != 6:
-                # O dia não é feriado, não é carnaval, não é sábado (5) nem domingo (6).
+                # O dia não é feriado, não é Natal, não é Carnaval, não é Páscoa,
+                # não é sábado (5) nem domingo (6)...
                 # Então é dia útil
                 lista_dias_uteis.append(single_date)
 
-                if len(carga_semanal) != 0:
-                    for da in carga_semanal:
-                        if single_date.weekday() == da:
-                            lista_dias_aula.append(single_date)
+                # verifica se o dia (single_date) é um dia de aula (com carga semanal)
+                for da in carga_semanal:
+                    if single_date.weekday() == da:
+                        lista_dias_aula.append(single_date)
+        # Atualiza os dicionários de dias de aula e útil
+        # formato: {periodo: lista_dias}
         dicionario_dias_aula.update({p: lista_dias_aula})
         dicionario_dias_uteis.update({p: lista_dias_uteis})
 
@@ -265,7 +312,7 @@ def calculo_previstas(request, data, ):
 
     context = {
         'ano_letivo': ano_letivo,  # objeto ano letivo
-        'disciplina': data['disciplina'],   # tipo disciplina anual/semestral
+        'disciplina': data['disciplina'],  # tipo disciplina anual/semestral
         'escolaridade': escolaridade,  # tipo escolaridade (1p, 2p, 3p_pre ...) -> verbose name
         'lista_periodos': lista_periodos,  # lista de objetos periodos (períodos ou semestres)
         'lista_feriados': lista_data_feriados,  # lista de datas
@@ -274,7 +321,7 @@ def calculo_previstas(request, data, ):
         'dicionario_dias_uteis': dicionario_dias_uteis,  # dicionário (periodo: lista de dias uteis)
         'dicionario_dias_aula': dicionario_dias_aula,  # dicionário (periodo: lista de dias de aula)
         'dicionario_tabela_ap': dicionario_tabela_ap,
-        'totais_dicionario_tabela_ap': totais_dicionario_tabela_ap,     # dicionário de inteiros
+        'totais_dicionario_tabela_ap': totais_dicionario_tabela_ap,  # dicionário de inteiros
     }
 
     return context
