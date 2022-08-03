@@ -61,51 +61,17 @@
                                     Tabela com o número de dias de aulas e número aulas previstas calculados a partir da carga semanal, introduzida pelo utilizador.
                                 </p>
 
-                                <table class="table text-center table-bordered table-striped text-nowrap">
-                                    <thead>
-                                    <tr>
-                                        <th class="border-top" colspan="2" > Carga Semanal</th>
-                                        <th class="border-top" class="text-center" colspan="4"> Dias de Aula</th>
-                                        <th class="border-top" class="text-center" colspan="4"> Aulas Previstas</th>
-                                    </tr>
-                                    <tr>
-                                        <th class="border-left" > dia da semana</th>
-                                        <th class="border-right">tempos</th>
-                                        <th>1P</th>
-                                        <th>2P</th>
-                                        <th>3P</th>
-                                        <th class="border-right">total</th>
-                                        <th>1P</th>
-                                        <th>2P</th>
-                                        <th>3P</th>
-                                        <th class="border-right">total</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    {% for key, obj in dicionario_tabela_ap.items %}
-                                    <tr>
-                                        <td class="border-left">{{ key }}</td>
-                                        <td class="border-right">{{ obj.carga_semanal }}</td>
-                                        <td>{{ obj.conta_weekdays_1p }}</td>
-                                        <td>{{ obj.conta_weekdays_2p }}</td>
-                                        <td>{{ obj.conta_weekdays_3p }}</td>
-                                        <th class="border-right">{{ obj.total_weekdays }}</th>
-                                        <td>{{ obj.aulas_previstas_1p}}</td>
-                                        <td>{{ obj.aulas_previstas_2p}}</td>
-                                        <td>{{ obj.aulas_previstas_3p}}</td>
-                                        <th class="border-right">{{  obj.total_previstas }}</th>
+                                {% if disciplina == "anual" %}
+                                    {% block tabela_disciplina_anual %}
+                                        {% include 'aulas_previstas/templatetags/tabela_previstas_disciplina_anual.html' %}
+                                    {% endblock %}
+                                {% endif %}
 
-                                    </tr>
-                                    {% endfor %}
-
-                                    <tr>
-                                        <th class="border-right " colspan="2" style="width: 150px"> totais</th>
-                                        {% for key, value in totais_dicionario_tabela_ap.items %}
-                                        <th class="border-bottom">{{ value }}</th>
-                                        {%  endfor %}
-                                    </tr>
-                                    </tbody>
-                                </table>
+                                {% if disciplina == "semestral" %}
+                                    {% block tabela_disciplina_semestral %}
+                                        {% include 'aulas_previstas/templatetags/tabela_previstas_disciplina_semestral.html' %}
+                                    {% endblock %}
+                                {% endif %}
 
                             </div>
                             <div class="card-footer clearfix">

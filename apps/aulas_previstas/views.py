@@ -227,7 +227,7 @@ def calculo_previstas(request, data, ):
 
         # disciplina semestral (com 2 Semestres)
         if data["disciplina"] == 'semestral':
-            if p.tipo == '1s':
+            if p.tipo == '1p':
                 start_date1 = user_inicio_al
                 end_date = user_fim_1s
             else:
@@ -258,71 +258,124 @@ def calculo_previstas(request, data, ):
 
     # imprime os dias úteis do ano letivo, se dicionário não vazio.
     if len(dicionario_dias_uteis) != 0:
-        imprime_dias(" - Dias úteis por período:", dicionario_dias_uteis)
+        imprime_dias("\n - Dias úteis por período/semestre:", dicionario_dias_uteis)
 
     # imprime os dias de aula do ano letivo, se dicionário não vazio.
     if len(dicionario_dias_aula) != 0:
-        imprime_dias(" - Dias de aula por período:", dicionario_dias_aula)
+        imprime_dias(" - Dias de aula por período/semestre:", dicionario_dias_aula)
 
     dicionario_tabela_ap = {}
     lista = []
     calendario = [
         '2ªFeira', '3ªFeira', '4ªFeira', '5ªFeira', '6ªFeira'
     ]
-    for key in carga_semanal:
-        for p in dicionario_dias_aula:
-            lista.append(p)
-        linha_tabela_ap = TabelaAulasPrevistasPeriodos(
-            key,
-            carga_semanal[key],
-            dicionario_dias_aula[lista[0]],
-            dicionario_dias_aula[lista[1]],
-            dicionario_dias_aula[lista[2]],
-        )
-        dicionario_tabela_ap.update({calendario[key]: linha_tabela_ap})
 
-    soma_aulas_1p = 0
-    soma_aulas_2p = 0
-    soma_aulas_3p = 0
-    soma_aulas_total = 0
-    soma_previstas_1p = 0
-    soma_previstas_2p = 0
-    soma_previstas_3p = 0
-    soma_previstas_total = 0
-    for key, obj in dicionario_tabela_ap.items():
-        soma_aulas_1p = soma_aulas_1p + obj.conta_weekdays_1p()
-        soma_aulas_2p = soma_aulas_2p + obj.conta_weekdays_2p()
-        soma_aulas_3p = soma_aulas_3p + obj.conta_weekdays_3p()
-        soma_aulas_total = soma_aulas_total + obj.total_weekdays()
-        soma_previstas_1p = soma_previstas_1p + obj.aulas_previstas_1p()
-        soma_previstas_2p = soma_previstas_2p + obj.aulas_previstas_2p()
-        soma_previstas_3p = soma_previstas_3p + obj.aulas_previstas_3p()
-        soma_previstas_total = soma_previstas_total + obj.total_previstas()
+    context = {}
 
-    totais_dicionario_tabela_ap = {
-        'soma_aulas_1p': soma_aulas_1p,
-        'soma_aulas_2p': soma_aulas_2p,
-        'soma_aulas_3p': soma_aulas_3p,
-        'soma_aulas_total': soma_aulas_total,
-        'soma_previstas_1p': soma_previstas_1p,
-        'soma_previstas_2p': soma_previstas_2p,
-        'soma_previstas_3p': soma_previstas_3p,
-        'soma_previstas_total': soma_previstas_total,
-    }
+    if data["disciplina"] == 'anual':
+        for key in carga_semanal:
+            for p in dicionario_dias_aula:
+                lista.append(p)
+            linha_tabela_ap = TabelaAulasPrevistasPeriodos(
+                key,
+                carga_semanal[key],
+                dicionario_dias_aula[lista[0]],
+                dicionario_dias_aula[lista[1]],
+                dicionario_dias_aula[lista[2]],
+            )
+            dicionario_tabela_ap.update({calendario[key]: linha_tabela_ap})
 
-    context = {
-        'ano_letivo': ano_letivo,  # objeto ano letivo
-        'disciplina': data['disciplina'],  # tipo disciplina anual/semestral
-        'escolaridade': escolaridade,  # tipo escolaridade (1p, 2p, 3p_pre ...) -> verbose name
-        'lista_periodos': lista_periodos,  # lista de objetos periodos (períodos ou semestres)
-        'lista_feriados': lista_data_feriados,  # lista de datas
-        'lista_carnaval': lista_dias_carnaval,  # lista de datas
-        'dias_de_aulas': carga_semanal,  # dicionário com a carga semanal (dia semana: tempos)
-        'dicionario_dias_uteis': dicionario_dias_uteis,  # dicionário (periodo: lista de dias uteis)
-        'dicionario_dias_aula': dicionario_dias_aula,  # dicionário (periodo: lista de dias de aula)
-        'dicionario_tabela_ap': dicionario_tabela_ap,
-        'totais_dicionario_tabela_ap': totais_dicionario_tabela_ap,  # dicionário de inteiros
-    }
+        soma_aulas_1p = 0
+        soma_aulas_2p = 0
+        soma_aulas_3p = 0
+        soma_aulas_total = 0
+        soma_previstas_1p = 0
+        soma_previstas_2p = 0
+        soma_previstas_3p = 0
+        soma_previstas_total = 0
+        for key, obj in dicionario_tabela_ap.items():
+            soma_aulas_1p = soma_aulas_1p + obj.conta_weekdays_1p()
+            soma_aulas_2p = soma_aulas_2p + obj.conta_weekdays_2p()
+            soma_aulas_3p = soma_aulas_3p + obj.conta_weekdays_3p()
+            soma_aulas_total = soma_aulas_total + obj.total_weekdays()
+            soma_previstas_1p = soma_previstas_1p + obj.aulas_previstas_1p()
+            soma_previstas_2p = soma_previstas_2p + obj.aulas_previstas_2p()
+            soma_previstas_3p = soma_previstas_3p + obj.aulas_previstas_3p()
+            soma_previstas_total = soma_previstas_total + obj.total_previstas()
+
+        totais_dicionario_tabela_ap = {
+            'soma_aulas_1p': soma_aulas_1p,
+            'soma_aulas_2p': soma_aulas_2p,
+            'soma_aulas_3p': soma_aulas_3p,
+            'soma_aulas_total': soma_aulas_total,
+            'soma_previstas_1p': soma_previstas_1p,
+            'soma_previstas_2p': soma_previstas_2p,
+            'soma_previstas_3p': soma_previstas_3p,
+            'soma_previstas_total': soma_previstas_total,
+        }
+
+        context = {
+            'ano_letivo': ano_letivo,  # objeto ano letivo
+            'disciplina': data['disciplina'],  # tipo disciplina anual/semestral
+            'escolaridade': escolaridade,  # tipo escolaridade (1p, 2p, 3p_pre ...) -> verbose name
+            'lista_periodos': lista_periodos,  # lista de objetos periodos (períodos ou semestres)
+            'lista_feriados': lista_data_feriados,  # lista de datas
+            'lista_carnaval': lista_dias_carnaval,  # lista de datas
+            'dias_de_aulas': carga_semanal,  # dicionário com a carga semanal (dia semana: tempos)
+            'dicionario_dias_uteis': dicionario_dias_uteis,  # dicionário (periodo: lista de dias uteis)
+            'dicionario_dias_aula': dicionario_dias_aula,  # dicionário (periodo: lista de dias de aula)
+            'dicionario_tabela_ap': dicionario_tabela_ap,
+            'totais_dicionario_tabela_ap': totais_dicionario_tabela_ap,  # dicionário de inteiros
+        }
+
+    if data["disciplina"] == 'semestral':
+        for key in carga_semanal:
+            for p in dicionario_dias_aula:
+                lista.append(p)
+            linha_tabela_ap = TabelaAulasPrevistasSemestres(
+                key,
+                carga_semanal[key],
+                dicionario_dias_aula[lista[0]],
+                dicionario_dias_aula[lista[1]],
+            )
+            dicionario_tabela_ap.update({calendario[key]: linha_tabela_ap})
+
+        soma_aulas_1s = 0
+        soma_aulas_2s = 0
+        soma_aulas_total = 0
+        soma_previstas_1s = 0
+        soma_previstas_2s = 0
+        soma_previstas_total = 0
+        for key, obj in dicionario_tabela_ap.items():
+            soma_aulas_1s = soma_aulas_1s + obj.conta_weekdays_1s()
+            soma_aulas_2s = soma_aulas_2s + obj.conta_weekdays_2s()
+            soma_aulas_total = soma_aulas_total + obj.total_weekdays()
+            soma_previstas_1s = soma_previstas_1s + obj.aulas_previstas_1s()
+            soma_previstas_2s = soma_previstas_2s + obj.aulas_previstas_2s()
+            soma_previstas_total = soma_previstas_total + obj.total_previstas()
+
+        totais_dicionario_tabela_ap = {
+            'soma_aulas_1s': soma_aulas_1s,
+            'soma_aulas_2s': soma_aulas_2s,
+            'soma_aulas_total': soma_aulas_total,
+            'soma_previstas_1s': soma_previstas_1s,
+            'soma_previstas_2s': soma_previstas_2s,
+            'soma_previstas_total': soma_previstas_total,
+        }
+
+        context = {
+            'ano_letivo': ano_letivo,  # objeto ano letivo
+            'disciplina': data['disciplina'],  # tipo disciplina anual/semestral
+            'escolaridade': escolaridade,  # tipo escolaridade (1p, 2p, 3p_pre ...) -> verbose name
+            'lista_periodos': lista_periodos,  # lista de objetos periodos (períodos ou semestres)
+            'lista_feriados': lista_data_feriados,  # lista de datas
+            'lista_carnaval': lista_dias_carnaval,  # lista de datas
+            'dias_de_aulas': carga_semanal,  # dicionário com a carga semanal (dia semana: tempos)
+            'dicionario_dias_uteis': dicionario_dias_uteis,  # dicionário (periodo: lista de dias uteis)
+            'dicionario_dias_aula': dicionario_dias_aula,  # dicionário (periodo: lista de dias de aula)
+            'dicionario_tabela_ap': dicionario_tabela_ap,   # dicionário de inteiros
+            'totais_dicionario_tabela_ap': totais_dicionario_tabela_ap,  # dicionário de inteiros
+        }
 
     return context
 
