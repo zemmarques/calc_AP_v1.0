@@ -162,7 +162,11 @@ def calculo_previstas(request, data, ):
             lista_data_feriados.append(f.data)
         lista_data_feriados.sort()
         print(" - Feriados nacionais:", lista_data_feriados)
+    except Feriado.DoesNotExist:
+        feriados_nacionais = None
+        print('     # Erro_2 - Não foram definidos feriados nacionais para o ano letivo:', ano_letivo)
 
+    try:
         # recolhe a data do feriado municipal introduzido pelo
         # user no form e adiciona à lista_data_feriados.
         feriado_municipal = Feriado.objects.get(
@@ -175,7 +179,8 @@ def calculo_previstas(request, data, ):
         lista_data_feriados.append(data_feriado_municipal)
 
     except():
-        print('     # Erro_2 - Não foram definidos feriados para o ano letivo:', ano_letivo)
+        feriado_municipal = None
+        print('     # Erro_3 - Não foi definido um feriado municipal:', ano_letivo)
 
     # Retorna lista com os dias de férias do Natal
     lista_dias_natal = []
@@ -184,7 +189,7 @@ def calculo_previstas(request, data, ):
         lista_dias_natal = funcao_lista_dias_delta_t(natal)
         print(" - Dias de Natal:", lista_dias_natal)
     except ValueError:
-        print('     # Erro_3 - Não foram definidas as datas do Natal:', ano_letivo)
+        print('     # Erro_4 - Não foram definidas as datas do Natal:', ano_letivo)
 
     # Retorna lista com os dias de férias do Carnaval
     lista_dias_carnaval = []
@@ -193,7 +198,7 @@ def calculo_previstas(request, data, ):
         lista_dias_carnaval = funcao_lista_dias_delta_t(carnaval)
         print(" - Dias de Carnaval:", lista_dias_carnaval)
     except ValueError:
-        print('     # Erro_3 - Não foram definidas as datas do Carnaval:', ano_letivo)
+        print('     # Erro_5 - Não foram definidas as datas do Carnaval:', ano_letivo)
 
     # Retorna lista com os dias de férias da Páscoa
     lista_dias_pascoa = []
@@ -202,7 +207,7 @@ def calculo_previstas(request, data, ):
         lista_dias_pascoa = funcao_lista_dias_delta_t(pascoa)
         print(" - Dias de Páscoa:", lista_dias_pascoa)
     except ValueError:
-        print('     # Erro_3 - Não foram definidas as datas do Páscoa:', ano_letivo)
+        print('     # Erro_6 - Não foram definidas as datas do Páscoa:', ano_letivo)
 
     # Calcula os dias de aulas segundo o formulário inserido pelo utilizador.
     # — dicionário_dias_uteis no formato -> {Periodo: [lista de dias_úteis]}
@@ -315,17 +320,19 @@ def calculo_previstas(request, data, ):
         }
 
         context = {
-            'ano_letivo': ano_letivo,  # objeto ano letivo
-            'disciplina': data['disciplina'],  # tipo disciplina anual/semestral
-            'escolaridade': escolaridade,  # tipo escolaridade (1p, 2p, 3p_pre ...) -> verbose name
-            'lista_periodos': lista_periodos,  # lista de objetos periodos (períodos ou semestres)
-            'lista_feriados': lista_data_feriados,  # lista de datas
-            'lista_carnaval': lista_dias_carnaval,  # lista de datas
-            'dias_de_aulas': carga_semanal,  # dicionário com a carga semanal (dia semana: tempos)
-            'dicionario_dias_uteis': dicionario_dias_uteis,  # dicionário (periodo: lista de dias uteis)
-            'dicionario_dias_aula': dicionario_dias_aula,  # dicionário (periodo: lista de dias de aula)
-            'dicionario_tabela_ap': dicionario_tabela_ap,
-            'totais_dicionario_tabela_ap': totais_dicionario_tabela_ap,  # dicionário de inteiros
+            'ano_letivo': ano_letivo,               # objeto ano letivo
+            'disciplina': data['disciplina'],           # tipo disciplina anual/semestral
+            'escolaridade': escolaridade,               # tipo escolaridade (1p, 2p, 3p_pre ...) -> verbose name
+            'lista_periodos': lista_periodos,           # lista de objetos periodos (períodos ou semestres)
+            'lista_feriados': lista_data_feriados,          # lista de datas
+            'feriados_nacionais': feriados_nacionais,       # queriset com os objetos feriados nacionais
+            'feriado_municipal': feriado_municipal,         # objeto feriado municipal
+            'lista_carnaval': lista_dias_carnaval,          # lista de datas
+            'dias_de_aulas': carga_semanal,                     # dicionário com a carga semanal (dia semana: tempos)
+            'dicionario_dias_uteis': dicionario_dias_uteis,         # dicionário (periodo: lista de dias uteis)
+            'dicionario_dias_aula': dicionario_dias_aula,           # dicionário (periodo: lista de dias de aula)
+            'dicionario_tabela_ap': dicionario_tabela_ap,                       # dicionário de inteiros
+            'totais_dicionario_tabela_ap': totais_dicionario_tabela_ap,         # dicionário de inteiros
         }
 
     if data["disciplina"] == 'semestral':
@@ -364,17 +371,19 @@ def calculo_previstas(request, data, ):
         }
 
         context = {
-            'ano_letivo': ano_letivo,  # objeto ano letivo
-            'disciplina': data['disciplina'],  # tipo disciplina anual/semestral
-            'escolaridade': escolaridade,  # tipo escolaridade (1p, 2p, 3p_pre ...) -> verbose name
-            'lista_periodos': lista_periodos,  # lista de objetos periodos (períodos ou semestres)
-            'lista_feriados': lista_data_feriados,  # lista de datas
-            'lista_carnaval': lista_dias_carnaval,  # lista de datas
-            'dias_de_aulas': carga_semanal,  # dicionário com a carga semanal (dia semana: tempos)
-            'dicionario_dias_uteis': dicionario_dias_uteis,  # dicionário (periodo: lista de dias uteis)
-            'dicionario_dias_aula': dicionario_dias_aula,  # dicionário (periodo: lista de dias de aula)
-            'dicionario_tabela_ap': dicionario_tabela_ap,   # dicionário de inteiros
-            'totais_dicionario_tabela_ap': totais_dicionario_tabela_ap,  # dicionário de inteiros
+            'ano_letivo': ano_letivo,                   # objeto ano letivo
+            'disciplina': data['disciplina'],           # tipo disciplina anual/semestral
+            'escolaridade': escolaridade,               # tipo escolaridade (1p, 2p, 3p_pre ...) -> verbose name
+            'lista_periodos': lista_periodos,           # lista de objetos periodos (períodos ou semestres)
+            'lista_feriados': lista_data_feriados,          # lista de datas
+            'feriados_nacionais': feriados_nacionais,       # queriset com os objetos feriados nacionais
+            'feriado_municipal': feriado_municipal,         # objeto feriado municipal
+            'lista_carnaval': lista_dias_carnaval,          # lista de datas
+            'dias_de_aulas': carga_semanal,                        # dicionário com a carga semanal (dia semana: tempos)
+            'dicionario_dias_uteis': dicionario_dias_uteis,        # dicionário (periodo: lista de dias uteis)
+            'dicionario_dias_aula': dicionario_dias_aula,          # dicionário (periodo: lista de dias de aula)
+            'dicionario_tabela_ap': dicionario_tabela_ap,                   # dicionário de inteiros
+            'totais_dicionario_tabela_ap': totais_dicionario_tabela_ap,     # dicionário de inteiros
         }
 
     return context
