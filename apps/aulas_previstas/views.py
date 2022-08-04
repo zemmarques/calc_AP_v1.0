@@ -33,7 +33,7 @@ def imprime_dias(msg, dicionario):
         print("\n    ª {0} -> {1} dias".format(i, len(dicionario[i])))
 
         # para debug — imprime todos os dias
-        # for d in dicionario[k]:
+        # for d in dicionario[i]:
         #    print("      ", d)
 
     print()
