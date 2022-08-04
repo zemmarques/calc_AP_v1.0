@@ -358,32 +358,279 @@
                                 </div>
                             </div>
                             <div class="card-body">
-                                <h6 class="card-title">2 Special title treatment</h6>
 
-                                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
 
-                                <table class="table text-center table-bordered table-striped">
-                                    <thead>
-                                    <tr>
-                                        <th> Dia</th>
-                                        <th> Dia da semana</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr>
-                                        <td>20/2/2023</td>
-                                        <td>2ªfeira</td>
-                                    </tr>
-                                    <tr>
-                                        <td>21/2/2023</td>
-                                        <td>3ªfeira</td>
-                                    </tr>
-                                    <tr>
-                                        <td>22/2/2023</td>
-                                        <td>4ªFeira</td>
-                                    </tr>
-                                    </tbody>
-                                </table>
+
+
+
+
+
+
+
+
+
+
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label>Ano Letivo:</label>
+                                                        <div class="input-group mb-3">
+                                                            <div class="input-group-prepend">
+                                                                <div class="input-group-text">
+                                                                    <span class="fas fa-school"></span>
+                                                                </div>
+                                                            </div>
+                                                            {% render_field field class="form-control" %}
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- /.Erros neste field -->
+                                                    {% for error in field.errors %}
+                                                        <h6 class="text-danger" style="list-style-type:square;">
+                                                            <ul>
+                                                                <li>
+                                                                    {{ error }}
+                                                                </li>
+                                                            </ul>
+                                                        </h6>
+                                                    {% endfor %}
+                                                </div>
+
+
+
+                                        <!-- /.Nivel de ensino field -->
+
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label>Nível de ensino:</label>
+                                                        <div class="input-group mb-3">
+                                                            <div class="input-group-prepend">
+                                                                <div class="input-group-text">
+                                                                    <span class="fas fa-user-friends"></span>
+                                                                </div>
+                                                            </div>
+                                                            {% render_field field class="form-control" placeholder=field.label %}
+                                                        </div>
+                                                    </div>
+
+
+                                                </div>
+
+                                            </div> <!-- /.div class row -->
+
+
+
+                                        <!-- /.Disciplina anual/semestral field -->
+
+                                            <div class="form-group clearfix">
+                                                <div class="icheck-alizarin d-inline">
+                                                    {% render_field field class="list-unstyled d-inline" placeholder=field.label %}
+                                                </div>
+                                            </div>
+
+
+                                        <!-- /.data início do Ano Letivo field -->
+
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label id="label_inicio">Início do Ano letivo:</label>
+                                                        <div class="input-group date mb-3">
+                                                            <div class="input-group-prepend">
+                                                                <span class="input-group-text">
+                                                                    <i class="fas fa-calendar-day"></i>
+                                                                </span>
+                                                            </div>
+                                                            {% render_field field class="form-control float-right" id="id_inicio_ano" %}
+                                                        </div>
+                                                        <p class="text-blue" id="p_inicio_ano"></p>
+                                                    </div>
+
+
+                                                </div>
+
+
+
+                                        <!-- /.data fim do Ano Letivo field disbled -->
+
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label>Fim do Ano letivo:</label>
+                                                        <div class="input-group date mb-3">
+                                                            <div class="input-group-prepend">
+                                                                <span class="input-group-text">
+                                                                    <i class="fas fa-calendar-day"></i>
+                                                                </span>
+                                                            </div>
+                                                            <label class="form-control input float-right"> </label>
+                                                        </div>
+                                                    </div>
+
+
+                                                </div>
+
+                                            </div> <!-- /.div class row -->
+
+
+
+
+                                            <div class="row" id="disciplina_div" {% if not field.errors %} style="display: none;" {% endif %} >
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label>Fim do 1ºSemestre:</label>
+                                                        <div class="input-group date mb-3">
+                                                            <div class="input-group-prepend">
+                                                                <span class="input-group-text">
+                                                                    <i class="fas fa-calendar-day"></i>
+                                                                </span>
+                                                            </div>
+                                                            <label> class="form-control input float-right" </label>
+                                                        </div>
+                                                    </div>
+
+
+                                                </div>
+
+
+
+
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label>Início do 2ºSemestre:</label>
+                                                        <div class="input-group date mb-3">
+                                                            <div class="input-group-prepend">
+                                                                <span class="input-group-text">
+                                                                    <i class="fas fa-calendar-day"></i>
+                                                                </span>
+                                                            </div>
+                                                            {% render_field field class="form-control input float-right" %}
+                                                        </div>
+                                                    </div>
+
+
+
+                                            </div> <!-- /.div class row -->
+
+
+
+
+                                            <label>Feriado Municipal</label>
+                                            <div class="input-group mb-3">
+                                                {% render_field field class="form-control" %}
+                                                <div class="input-group-append">
+                                                    <div class="input-group-text">
+                                                        <span class="fas fa-calendar-day"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+
+
+
+                                        <!-- /.Carga semanal fields -->
+                                        <!-- /.2ªFEIRA field -->
+
+                                            <label class="login-box-msg">Carga semanal da disciplina:</label>
+                                            <div class="input-group mb-3">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text" style="border: 0">2ªF</span>
+                                                </div>
+                                                {% render_field field class="form-control" placeholder=field.label %}
+                                                <div class="input-group-append">
+                                                    <span class="input-group-text" id="inputGroup-sizing-sm">Tempo(s)</span>
+                                                </div>
+                                            </div>
+
+
+
+                                        <!-- /.3ªFEIRA field -->
+
+                                            <div class="input-group mb-3">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text" style="border: 0">3ªF</span>
+                                                </div>
+                                                {% render_field field class="form-control" placeholder=field.label %}
+                                                <div class="input-group-append">
+                                                    <span class="input-group-text" id="inputGroup-sizing-sm">Tempo(s)</span>
+                                                </div>
+                                            </div>
+
+
+                                        <!-- /.4ªFEIRA field -->
+
+                                            <div class="input-group mb-3">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text" style="border: 0">4ªF</span>
+                                                </div>
+                                                {% render_field field class="form-control" placeholder=field.label %}
+                                                <div class="input-group-append">
+                                                    <span class="input-group-text" id="inputGroup-sizing-sm">Tempo(s)</span>
+                                                </div>
+                                            </div>
+
+
+                                        <!-- /.5ªFEIRA field -->
+
+                                            <div class="input-group mb-3">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text" style="border: 0">5ªF</span>
+                                                </div>
+                                                {% render_field field class="form-control" placeholder=field.label %}
+                                                <div class="input-group-append">
+                                                    <span class="input-group-text" id="inputGroup-sizing-sm">Tempo(s)</span>
+                                                </div>
+                                            </div>
+
+
+                                        <!-- /.6ªFEIRA field -->
+
+                                            <div class="input-group mb-3">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text" style="border: 0">6ªF</span>
+                                                </div>
+                                                {% render_field field class="form-control" placeholder=field.label %}
+                                                <div class="input-group-append">
+                                                    <span class="input-group-text" id="inputGroup-sizing-sm">Tempo(s)</span>
+                                                </div>
+                                            </div>
+
+                                            {
+
+
+
+
+                                    <br>
+
+                                    <!-- /.submit button -->
+                                    <div class="row">
+                                        <div class="col text-center" >
+                                            <button type="submit" id="calculaP" class="btn btn-primary btn-block">Calcular</button>
+                                        </div>
+                                    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
                             </div>
                             <div class="card-footer clearfix">
