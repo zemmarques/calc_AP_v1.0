@@ -128,25 +128,73 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr>
-                                        <td>1º</td>
-                                        <td>21/2/2023</td>
-                                    </tr>
-                                    <tr>
-                                        <td>2º</td>
-                                        <td>21/2/2023</td>
-                                        <td>3ªfeira</td>
-                                    </tr>
-                                    <tr>
-                                        <td>3º</td>
-                                        <td>22/2/2023</td>
-                                        <td>4ªFeira</td>
-                                    </tr>
+                                        {% for p in lista_periodos %}
+                                            {% if p.tipo == '1p' %}
+                                                <tr>
+                                                    <td> 1º</td>
+                                                    <td> de {{ p.start_date1|date:"j" }} a {{p.start_date2|date:"j b Y" }} </td>
+                                                    <td> {{ p.end_date|date:"j b Y" }} </td>
+
+                                                </tr>
+                                            {% elif p.tipo == '2p' %}
+                                                <tr>
+                                                    <td> 2º</td>
+                                                    <td> {{p.start_date1|date:"j b Y" }} </td>
+                                                    <td> {{ p.end_date|date:"j b Y" }} </td>
+                                                </tr>
+                                            {% else %}
+                                                <tr>
+                                                    <td> 3º</td>
+                                                    <td> {{p.start_date1|date:"j b Y" }} </td>
+                                                    <td> {{ p.end_date|date:"j b Y" }} </td>
+                                                </tr>
+                                            {% endif %}
+
+                                        {% endfor %}
+
                                     </tbody>
                                 </table>
                                 <br>
                                 <p><b>Pausas letivas:</b></p>
+                                <table class="table text-center table-bordered table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th class="border-top" colspan="3" > Interrupções </th>
+                                    </tr>
+                                    <tr>
+                                        <th> Períodos</th>
+                                        <th> Início</th>
+                                        <th> Fim</th>
 
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for p in lista_periodos %}
+                                            {% if p.tipo == '1p' %}
+                                                <tr>
+                                                    <td> 1º</td>
+                                                    <td> de {{ p.start_date1|date:"j" }} a {{p.start_date2|date:"j b Y" }} </td>
+                                                    <td> {{ p.end_date|date:"j b Y" }} </td>
+
+                                                </tr>
+                                            {% elif p.tipo == '2p' %}
+                                                <tr>
+                                                    <td> 2º</td>
+                                                    <td> {{p.start_date1|date:"j b Y" }} </td>
+                                                    <td> {{ p.end_date|date:"j b Y" }} </td>
+                                                </tr>
+                                            {% else %}
+                                                <tr>
+                                                    <td> 3º</td>
+                                                    <td> {{ p.start_date1|date:"j b Y" }} </td>
+                                                    <td> {{ p.end_date|date:"j b Y" }} <br>{{ p.end_date|date:"j b Y" }} <br>{{ p.end_date|date:"j b Y" }} </td>
+                                                </tr>
+                                            {% endif %}
+
+                                        {% endfor %}
+
+                                    </tbody>
+                                </table>
 
                             </div>
                             <!-- /.card-body -->
