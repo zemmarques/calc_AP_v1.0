@@ -120,7 +120,6 @@ class AnoLetivoForm(ModelForm):
                 # para apresentar a data final do ano letivo
                 nivel_ensino = self.data.get('grade')
                 p = Periodo.objects.get(ano_letivo=name_id, tipo="3p")
-
                 self.fields['fim_ano'].disabled = True
                 if nivel_ensino == "3p_fim_ciclo":
                     self.fields['fim_ano'].initial = p.end_date1

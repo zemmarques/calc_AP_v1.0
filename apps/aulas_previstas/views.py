@@ -68,11 +68,17 @@ def load_fim_ano(request):
     try:
         name_id = request.GET.get('ano_letivo')
         grade = request.GET.get('grade')
-        periodo = Periodo.objects.get(ano_letivo_id=name_id, tipo=grade)
-        p_data = periodo.end_date.__format__("%d/%m/%Y")
+        periodo = Periodo.objects.get(ano_letivo_id=name_id, tipo='3p')
+        if grade == '3p_fim_ciclo':
+            end_date = periodo.end_date1
+        elif grade == '3p_meio_ciclo':
+            end_date = periodo.end_date2
+        else:
+            end_date = periodo.end_date3
+        p_data = end_date.__format__("%d/%m/%Y")
         print(p_data)
     except (ValueError, Periodo.DoesNotExist):
-        p_data = 'Campo automático'
+        p_data = 'opss... data não encontrada'
 
     return render(
         request,
@@ -117,7 +123,7 @@ def calculo_previstas(request, data, ):
     escolaridade = ''
     if grade == '3p_pre':
         escolaridade = "Pré-escolar e 1º ciclo"
-    elif grade == '3p_ciclo':
+    elif grade == '3p_meio_ciclo':
         escolaridade = "5º, 6º, 7º, 8º e 10º Anos"
     elif grade == '3p_fim_ciclo':
         escolaridade = "9º, 11º e 12º Anos"
