@@ -17,7 +17,7 @@ TEMPOS_LETIVOS = (
 
 GRADE_OPTIONS = (
     ("3p_pre", "Pré-escolar e 1º ciclo"),
-    ("3p_ciclo", "5º, 6º, 7º, 8º e 10º Anos"),
+    ("3p_meio_ciclo", "5º, 6º, 7º, 8º e 10º Anos"),
     ("3p_fim_ciclo", "9º, 11º e 12º Anos"),
 )
 
@@ -118,11 +118,16 @@ class AnoLetivoForm(ModelForm):
                     ano_letivo_id=name_id, tipo="municipal").order_by('concelho')
 
                 # para apresentar a data final do ano letivo
-                tipo = self.data.get('grade')
-                p = Periodo.objects.get(ano_letivo=name_id, tipo=tipo)
+                nivel_ensino = self.data.get('grade')
+                p = Periodo.objects.get(ano_letivo=name_id, tipo="3p")
 
                 self.fields['fim_ano'].disabled = True
-                self.fields['fim_ano'].initial = p.end_date
+                if nivel_ensino == "3p_fim_ciclo":
+                    self.fields['fim_ano'].initial = p.end_date1
+                if nivel_ensino == "3p_meio_ciclo":
+                    self.fields['fim_ano'].initial = p.end_date2
+                if nivel_ensino == "3p_pre":
+                    self.fields['fim_ano'].initial = p.end_date3
 
             except (ValueError, TypeError):
                 pass  # invalid input from the client; ignore and fallback to empty City queryset

@@ -21,16 +21,16 @@ class PeriodoAdmin(admin.ModelAdmin):
     """ Criação da Tabela do Período no admin """
 
     list_display = [
-        'name', 'get_ano_letivo', 'start_date1', 'start_date2', 'end_date',
-        'tipo', 'slug', 'created', 'modified'
+        'name', 'get_ano_letivo', 'start_date1', 'start_date2', 'end_date1',
+        'end_date2', 'end_date3', 'tipo', 'slug', 'created', 'modified'
     ]
     search_fields = [
-        'name', 'start_date1', 'start_date2', 'end_date',
+        'name', 'start_date1', 'start_date2', 'end_date1', 'end_date2', 'end_date3',
         'tipo', 'slug', 'created', 'modified'
     ]
     list_filter = [
-        'name', 'start_date1', 'start_date2', 'end_date', 'tipo',
-        'slug', 'created', 'modified'
+        'name', 'start_date1', 'start_date2', 'end_date1', 'end_date2', 'end_date3',
+        'tipo', 'slug', 'created', 'modified'
     ]
 
     def get_ano_letivo(self, obj):

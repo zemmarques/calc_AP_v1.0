@@ -155,29 +155,31 @@ class Periodo(models.Model):
         'Início 1',
         blank=False,
         null=False,
+        help_text="Usada no 1ºP para definir a data inicial do arranque do ano letivo"
     )
     start_date2 = models.DateField(
         'Início 2',
         blank=True,
         null=True,
+        help_text="Usada no 1ºP para definir a data limite do arranque do ano letivo"
     )
     end_date1 = models.DateField(
-        'Fim',
-        blank=False,
-        null=False,
-        help_text="Usada no 3ºP para o Pré-escolar e 1º ciclo"
-    )
-    end_date2 = models.DateField(
-        'Fim',
-        blank=False,
-        null=False,
-        help_text="Usada no 3ºP para os 5º, 6º, 7º, 8º e 10º Anos"
-    )
-    end_date3 = models.DateField(
-        'Fim',
+        'Fim 1',
         blank=False,
         null=False,
         help_text="Usada no 3ºP para os 9º, 11ª e 12º Anos"
+    )
+    end_date2 = models.DateField(
+        'Fim 2',
+        blank=True,
+        null=True,
+        help_text="Usada no 3ºP para os 5º, 6º, 7º, 8º e 10º Anos"
+    )
+    end_date3 = models.DateField(
+        'Fim 3',
+        blank=True,
+        null=True,
+        help_text="Usada no 3ºP para o Pré-escolar e 1º ciclo"
     )
     created = models.DateTimeField(
         'Criado em',
