@@ -19,8 +19,17 @@ def daterange(start_date, end_date):
 def funcao_lista_dias_delta_t(epoca):
     """ Função que recebe o objeto deltaT (objeto do tipo periodo -> Natal, semestre, periodo , Páscoa, Carnaval)
     e retorna a lista de dias desse intervalo de tempo"""
+
+    # define o tipo de data final do período escolhido, end_date 1, 2 ou 3
+    if epoca.tipo == '3p_meio_ciclo':
+        end_date = epoca.end_date2
+    elif epoca.tipo == '3p_pre':
+        end_date = epoca.end_date3
+    else:
+        end_date = epoca.end_date1
+
     lista_dias = []
-    for single_date in daterange(epoca.start_date1, epoca.end_date):
+    for single_date in daterange(epoca.start_date1, end_date):
         lista_dias.append(single_date)
     return lista_dias
 
@@ -143,12 +152,14 @@ def calculo_previstas(request, data, ):
     if data["disciplina"] == 'anual':
         periodo_1 = get_object_or_404(Periodo, ano_letivo=ano_letivo.id, tipo='1p')
         periodo_2 = get_object_or_404(Periodo, ano_letivo=ano_letivo.id, tipo='2p')
-        periodo_3 = get_object_or_404(Periodo, ano_letivo=ano_letivo.id, tipo=data['grade'])
+        periodo_3 = get_object_or_404(Periodo, ano_letivo=ano_letivo.id, tipo='3p')
         lista_periodos.extend((periodo_1, periodo_2, periodo_3))
         print(" - Periodos selecionados:", lista_periodos)
     if data["disciplina"] == 'semestral':
+        # para obter datas iniciais do semestre uso o 1p
         semestre_1 = get_object_or_404(Periodo, ano_letivo=ano_letivo.id, tipo='1p')
-        semestre_2 = get_object_or_404(Periodo, ano_letivo=ano_letivo.id, tipo=data['grade'])
+        # para obter datas finais do semestre uso o 3p
+        semestre_2 = get_object_or_404(Periodo, ano_letivo=ano_letivo.id, tipo='3p')
         lista_periodos.extend((semestre_1, semestre_2))
         print(" - Semestres selecionados:", lista_periodos)
 
@@ -218,28 +229,42 @@ def calculo_previstas(request, data, ):
         lista_dias_uteis = []
         lista_dias_aula = []
         # inicialização de variáveis para datas
-        start_date1 = 0
+        start_date = 0
         end_date = 0
 
         # disciplina anual (com 3 Períodos)
         if data["disciplina"] == 'anual':
             # permite utilizar a data de início do 1periodo inserida pelo user no formulário
             if p.tipo == '1p':
-                start_date1 = user_inicio_al
+                start_date = user_inicio_al
+                end_date = p.end_date1
+            elif p.tipo == '3p':
+                start_date = p.start_date1
+                if grade == '3p_fim_ciclo':
+                    end_date = p.end_date1
+                elif grade == '3p_meio_ciclo':
+                    end_date = p.end_date2
+                else:
+                    end_date = p.end_date3
             else:
-                start_date1 = p.start_date1
-            end_date = p.end_date
+                start_date = p.start_date1
+                end_date = p.end_date1
 
         # disciplina semestral (com 2 Semestres)
         if data["disciplina"] == 'semestral':
             if p.tipo == '1p':
-                start_date1 = user_inicio_al
+                start_date = user_inicio_al
                 end_date = user_fim_1s
             else:
-                start_date1 = user_inicio_2s
-                end_date = p.end_date
+                start_date = user_inicio_2s
+                if grade == '3p_fim_ciclo':
+                    end_date = p.end_date1
+                elif grade == '3p_meio_ciclo':
+                    end_date = p.end_date2
+                else:
+                    end_date = p.end_date3
 
-        for single_date in daterange(start_date1, end_date):
+        for single_date in daterange(start_date, end_date):
             # percorre todos os dias do período
 
             if single_date not in lista_data_feriados and \
