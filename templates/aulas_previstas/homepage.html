@@ -78,7 +78,7 @@
                                         {% if field.name == "grade" %}
                                                 <div class="col-md-6">
                                                     <div class="form-group">
-                                                        <label>Nível de ensino:</label>
+                                                        <label>Nível de Ensino:</label>
                                                         <div class="input-group mb-3">
                                                             <div class="input-group-prepend">
                                                                 <div class="input-group-text">
@@ -119,7 +119,7 @@
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     <div class="form-group">
-                                                        <label id="label_inicio">Início do Ano letivo:</label>
+                                                        <label id="label_inicio">Início do Ano Letivo:</label>
                                                         <div class="input-group date mb-3">
                                                             <div class="input-group-prepend">
                                                                 <span class="input-group-text">
@@ -149,7 +149,7 @@
                                         {% if field.name == "fim_ano" %}
                                                 <div class="col-md-6">
                                                     <div class="form-group">
-                                                        <label>Fim do Ano letivo:</label>
+                                                        <label>Fim do Ano Letivo:</label>
                                                         <div class="input-group date mb-3">
                                                             <div class="input-group-prepend">
                                                                 <span class="input-group-text">
@@ -354,51 +354,74 @@
                             <!-- /.form-box -->
                         </div><!-- /.card -->
 
-                        <div class="card card-primary card-outline">
-                            <div class="card-body">
-                                <h5 class="card-title">Card title</h5>
 
-                                <p class="card-text">
-                                    Some quick example text to build on the card title and make up the bulk of the card's
-                                    content.
-                                </p>
-                                <a href="#" class="card-link">Card link</a>
-                                <a href="#" class="card-link">Another link</a>
-                            </div>
-                        </div><!-- /.card -->
                     </div>
                     <!-- /.col-md-6 -->
                     <div class="col-lg-6">
-                        <div class="card">
-                            <div class="card-header">
-                                <h5 class="card-title m-0">Featured</h5>
+                        <div class="card card-orange card-outline">
+                            <div class="card-header ">
+                                 <b class="h4"> Funções</b>
                             </div>
-                            <div class="card-body">
-                                <h6 class="card-title">Special title treatment</h6>
-
-                                <p class="card-text">
-                                    Calculadora Web de Aulas Previstas para o 1º, 2º 3º ciclos e ensino secundário.
-                                    Com base no calendário escolar de cada ano letivo e na carga horária semanal da
-                                    disciplina, calcula as aulas previstas por período, semestre e ano.
+                            <div class="card-body card-orange card-outline">
+                                <p class="card-text text-justify">
+                                    Calculadora Web de Aulas Previstas para o 1º, 2º, 3º ciclos e ensino secundário.
                                 </p>
-                                <a href="#" class="btn btn-primary">Go somewhere</a>
+                                <p class="card-text text-justify">
+                                    <ul>
+                                        <li>
+                                            Efetua o cálculo das aulas previstas por período, semestre e ano,
+                                            de acordo com a carga horária semanal da disciplina.
+                                        </li>
+                                    </ul>
+                                </p>
+                                <p class="card-text text-justify">
+                                    <ul>
+                                        <li>
+                                            Apresenta o calendário escolar do ano letivo selecionado, bem como os feriados
+                                            nacionais e municipal considerados para o cálculo.
+                                        </li>
+                                    </ul>
+
+                                </p>
                             </div>
                         </div>
 
-                        <div class="card card-primary card-outline">
+                        <div class="card card-fuchsia card-outline">
                             <div class="card-header">
-                                <h2 class="card-title m-0">Funcionalidade da calculadora Web de Aulas Previstas</h2>
+                                <b class="h4"> Instruções de utilização </b>
                             </div>
-                            <div class="card-body">
-
-                                <p class="card-text">
-
-                                    Com base no calendário escolar de cada ano letivo e na carga horária semanal da
-                                    disciplina, calcula as aulas previstas por período, semestre e ano para os para o 1º
-                                    , 2º 3º ciclos e ensino secundário.
+                            <div class="card-body card-fuchsia card-outline">
+                                <p class="card-text text-justify">
+                                    <ul>
+                                        <li>
+                                            Preencher os campos do formulário com os dados da disciplina.
+                                        </li>
+                                    </ul>
 
                                 </p>
-                                <a href="#" class="btn btn-primary">Go somewhere</a>
+                                <p class="card-text text-justify">
+                                    <ul>
+                                        <li>
+                                            O campo <b> <i>"Fim do Ano Letivo"</i> </b> é apresentado automaticamente, de acordo com o
+                                            ano letivo e o nível de ensino selecionado.
+                                        </li>
+                                    </ul>
+                                </p>
+                                <p class="card-text text-justify">
+                                    <ul>
+                                        <li>
+                                            Caso a disciplina seja <b> <i>"Semestral"</i> </b>, é necessário ainda indicar
+                                            a data de fim do 1ºSemestre e a data de início do 2ºSemestre.
+                                        </li>
+                                    </ul>
+                                </p>
+                                <p class="card-text text-justify">
+                                    <ul>
+                                        <li>
+                                            Submeter os dados do formulário carregando no botão <b> <i>"Calcular"</i> </b>.
+                                        </li>
+                                    </ul>
+                                </p>
                             </div>
                         </div>
                     </div>

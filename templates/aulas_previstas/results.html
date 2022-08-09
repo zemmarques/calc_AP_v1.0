@@ -9,7 +9,7 @@
             <div class="container">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                       <h1><i class="fas fa-paperclip"></i>  Resultados</h1>
+                        <h1><i class="fas fa-paperclip"></i>  Resultados</h1>
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
@@ -58,11 +58,11 @@
                                 </div>
 
                                 <p class="card-text">
-                                    <ul>
-                                        <li>
-                                            <i>Tabela com o número de dias de aulas e número aulas previstas calculados a partir da carga semanal.</i>
-                                        </li>
-                                    </ul>
+                                <ul>
+                                    <li>
+                                        <i>Tabela com o número de dias de aulas e número aulas previstas calculados a partir da carga semanal.</i>
+                                    </li>
+                                </ul>
                                 </p>
 
 
@@ -77,7 +77,7 @@
                                         {% include 'aulas_previstas/templatetags/tabela_previstas_disciplina_semestral.html' %}
                                     {% endblock %}
                                 {% endif %}
-                            <br>
+                                <br>
 
                             </div>
                             <div class="card-footer clearfix">
@@ -104,21 +104,18 @@
                                     <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
                                         <i class="fas fa-plus"></i>
                                     </button>
-                                    <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
-                                        <i class="fas fa-times"></i>
-                                    </button>
                                 </div>
                             </div>
                             <!-- /.card-header -->
                             <div class="card-body" >
                                 <p class="text-center"><b>Ano Letivo:</b> {{ ano_letivo }}</p>
 
-                                <p><b>Períodos letivos:</b></p>
+
 
                                 <table class="table text-center table-bordered table-striped">
                                     <thead>
                                     <tr>
-                                        <th class="border-top" colspan="3" > Aulas</th>
+                                        <th class="border-top bg-gradient-gray" colspan="3" > Aulas</th>
                                     </tr>
                                     <tr>
                                         <th> Períodos</th>
@@ -128,70 +125,70 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                        {% for p in lista_periodos %}
-                                            {% if p.tipo == '1p' %}
-                                                <tr>
-                                                    <td> 1º</td>
-                                                    <td> de {{ p.start_date1|date:"j" }} a {{p.start_date2|date:"j b Y" }} </td>
-                                                    <td> {{ p.end_date|date:"j b Y" }} </td>
+                                    {% for p in lista_periodos %}
+                                        {% if p.tipo == '1p' %}
+                                            <tr>
+                                                <td> 1º</td>
+                                                <td> de {{ p.start_date1|date:"j" }} a {{p.start_date2|date:"j b Y" }} </td>
+                                                <td> {{ p.end_date1|date:"j b Y" }} </td>
 
-                                                </tr>
-                                            {% elif p.tipo == '2p' %}
-                                                <tr>
-                                                    <td> 2º</td>
-                                                    <td> {{p.start_date1|date:"j b Y" }} </td>
-                                                    <td> {{ p.end_date|date:"j b Y" }} </td>
-                                                </tr>
-                                            {% else %}
-                                                <tr>
-                                                    <td> 3º</td>
-                                                    <td> {{p.start_date1|date:"j b Y" }} </td>
-                                                    <td> {{ p.end_date|date:"j b Y" }} </td>
-                                                </tr>
-                                            {% endif %}
+                                            </tr>
+                                        {% elif p.tipo == '2p' %}
+                                            <tr>
+                                                <td> 2º</td>
+                                                <td> {{p.start_date1|date:"j b Y" }} </td>
+                                                <td> {{ p.end_date1|date:"j b Y" }} </td>
+                                            </tr>
+                                        {% else %}
+                                            <tr>
+                                                <td> 3º</td>
+                                                <td> {{p.start_date1|date:"j b Y" }} </td>
+                                                <td> {{ p.end_date1|date:"j b Y" }} - {{ lista_escolaridade.2 }} <br> {{ p.end_date2|date:"j b Y" }} - {{ lista_escolaridade.1 }} <br> {{ p.end_date3|date:"j b Y" }} - {{ lista_escolaridade.0 }} </td>
+                                            </tr>
+                                        {% endif %}
 
-                                        {% endfor %}
+                                    {% endfor %}
 
                                     </tbody>
                                 </table>
                                 <br>
-                                <p><b>Pausas letivas:</b></p>
+
                                 <table class="table text-center table-bordered table-striped">
                                     <thead>
                                     <tr>
-                                        <th class="border-top" colspan="3" > Interrupções </th>
+                                        <th class="border-top bg-gradient-gray" colspan="3" > Interrupções </th>
                                     </tr>
                                     <tr>
-                                        <th> Períodos</th>
+                                        <th> Pausas</th>
                                         <th> Início</th>
                                         <th> Fim</th>
 
                                     </tr>
                                     </thead>
                                     <tbody>
-                                        {% for p in lista_periodos %}
-                                            {% if p.tipo == '1p' %}
-                                                <tr>
-                                                    <td> 1º</td>
-                                                    <td> de {{ p.start_date1|date:"j" }} a {{p.start_date2|date:"j b Y" }} </td>
-                                                    <td> {{ p.end_date|date:"j b Y" }} </td>
+                                    {% for p in lista_pausas_letivas %}
+                                        {% if p.tipo == 'natal' %}
+                                            <tr>
+                                                <td> Natal</td>
+                                                <td> {{ p.start_date1|date:"j b Y" }} </td>
+                                                <td> {{ p.end_date1|date:"j b Y" }} </td>
 
-                                                </tr>
-                                            {% elif p.tipo == '2p' %}
-                                                <tr>
-                                                    <td> 2º</td>
-                                                    <td> {{p.start_date1|date:"j b Y" }} </td>
-                                                    <td> {{ p.end_date|date:"j b Y" }} </td>
-                                                </tr>
-                                            {% else %}
-                                                <tr>
-                                                    <td> 3º</td>
-                                                    <td> {{ p.start_date1|date:"j b Y" }} </td>
-                                                    <td> {{ p.end_date|date:"j b Y" }} <br>{{ p.end_date|date:"j b Y" }} <br>{{ p.end_date|date:"j b Y" }} </td>
-                                                </tr>
-                                            {% endif %}
+                                            </tr>
+                                        {% elif p.tipo == 'carnaval' %}
+                                            <tr>
+                                                <td> Carnaval</td>
+                                                <td> {{p.start_date1|date:"j b Y" }} </td>
+                                                <td> {{ p.end_date1|date:"j b Y" }} </td>
+                                            </tr>
+                                        {% else %}
+                                            <tr>
+                                                <td> Páscoa</td>
+                                                <td> {{ p.start_date1|date:"j b Y" }} </td>
+                                                <td> {{ p.end_date1|date:"j b Y" }} </td>
+                                            </tr>
+                                        {% endif %}
 
-                                        {% endfor %}
+                                    {% endfor %}
 
                                     </tbody>
                                 </table>
@@ -200,75 +197,13 @@
                             <!-- /.card-body -->
                             <div class="card-footer clearfix">
                                 <ul class="pagination pagination-sm m-0 float-right">
-
+                                    <a href="#" class="card-link"> <span class="fas fa-arrow-circle-up"></span>   </a>
                                 </ul>
                             </div>
                         </div>
                         <!-- /.card -->
                     </div>
 
-
-
-                    <div class="col-lg-6">
-                        <div class="card card-purple collapsed-card">
-                            <div class="card-header">
-                                <h3 class="card-title">
-                                    <i class="fas fa-fan"></i>
-                                    Ano Letivo: dias úteis
-                                </h3>
-                                <div class="card-tools">
-                                    <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
-                                        <i class="fas fa-plus"></i>
-                                    </button>
-                                    <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
-                                        <i class="fas fa-times"></i>
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <h6 class="card-title">1 Special title treatment</h6>
-
-                                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-
-                                <table class="table text-center table-bordered table-striped">
-                                    <thead>
-                                    <tr>
-
-                                        <th> Feriado</th>
-                                        <th> Dia</th>
-                                        <th> Dia da semana</th>
-
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-
-                                    <tr>
-                                        <td>Dia da Liberdade</td>
-                                        <td>25/04/2023</td>
-                                        <td>5ªfeira</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Dia do trabalhador</td>
-                                        <td>1/5/2023</td>
-                                        <td>6ªFeira</td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-
-
-                            </div>
-                            <div class="card-footer clearfix">
-                                <ul class="pagination pagination-sm m-0 float-right">
-                                    <a href="#" class="btn btn-primary">Go somewhere</a>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- /.col-md-6 -->
-
-                </div>
-
-                <div class="row">
                     <div class="col-lg-6">
                         <div class="card card-success collapsed-card">
                             <div class="card-header">
@@ -280,9 +215,6 @@
                                     <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
                                         <i class="fas fa-plus"></i>
                                     </button>
-                                    <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
-                                        <i class="fas fa-times"></i>
-                                    </button>
                                 </div>
                             </div>
                             <div class="card-body">
@@ -293,18 +225,18 @@
                                 <table class="table text-center table-bordered table-striped">
 
                                     <thead>
-                                        <tr>
-                                            <th> Feriado</th>
-                                            <th> Dia</th>
-                                            <th> Dia da semana</th>
-                                        </tr>
+                                    <tr>
+                                        <th class="bg-gradient-gray"> Feriado</th>
+                                        <th class="bg-gradient-gray"> Dia</th>
+                                        <th class="bg-gradient-gray"> Dia da semana</th>
+                                    </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td>{{ feriado_municipal.name}}</td>
-                                            <td>{{ feriado_municipal.data|date:"j b Y"}}</td>
-                                            <td>{{ feriado_municipal.data|date:"l"}}</td>
-                                        </tr>
+                                    <tr>
+                                        <td>{{ feriado_municipal.name}}</td>
+                                        <td>{{ feriado_municipal.data|date:"j b Y"}}</td>
+                                        <td>{{ feriado_municipal.data|date:"l"}}</td>
+                                    </tr>
                                     </tbody>
                                 </table>
 
@@ -314,338 +246,42 @@
                                 </p>
                                 <table class="table text-center table-bordered table-striped">
                                     <thead>
-                                        <tr>
-                                            <th> Feriado</th>
-                                            <th> Dia</th>
-                                            <th> Dia da semana</th>
-                                        </tr>
+                                    <tr>
+                                        <th class="bg-gradient-gray"> Feriado</th>
+                                        <th class="bg-gradient-gray"> Dia</th>
+                                        <th class="bg-gradient-gray"> Dia da semana</th>
+                                    </tr>
                                     </thead>
                                     <tbody>
-                                        {% for f in feriados_nacionais %}
-                                            <tr>
-                                                <td>{{ f.name }}</td>
-                                                <td>{{ f.data|date:"j b Y" }}</td>
-                                                <td>{{ f.data|date:"l" }}</td>
-                                            </tr>
-                                        {% endfor %}
+                                    {% for f in feriados_nacionais %}
+                                        <tr>
+                                            <td>{{ f.name }}</td>
+                                            <td>{{ f.data|date:"j b Y" }}</td>
+                                            <td>{{ f.data|date:"l" }}</td>
+                                        </tr>
+                                    {% endfor %}
                                     </tbody>
                                 </table>
 
                             </div>
                             <div class="card-footer clearfix">
                                 <ul class="pagination pagination-sm m-0 float-right">
-                                    <a href="#" class="card-link">subir</a>
+                                    <a href="#" class="card-link"> <span class="fas fa-arrow-circle-up"></span>   </a>
                                 </ul>
                             </div>
                         </div><!-- /.card -->
                     </div> <!-- /.col-lg-6 -->
 
-
-                    <div class="col-lg-6">
-                        <div class="card card-orange collapsed-card">
-                            <div class="card-header">
-                                <h3 class="card-title">
-                                    <i class="fas fa-fan"></i>
-                                    Dados do formulário
-                                </h3>
-                                <div class="card-tools">
-                                    <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
-                                        <i class="fas fa-plus"></i>
-                                    </button>
-                                    <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
-                                        <i class="fas fa-times"></i>
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="card-body">
-
-
-
-
-
-
-
-
-
-
-
-
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label>Ano Letivo:</label>
-                                                        <div class="input-group mb-3">
-                                                            <div class="input-group-prepend">
-                                                                <div class="input-group-text">
-                                                                    <span class="fas fa-school"></span>
-                                                                </div>
-                                                            </div>
-                                                            {% render_field field class="form-control" %}
-                                                        </div>
-                                                    </div>
-
-                                                    <!-- /.Erros neste field -->
-                                                    {% for error in field.errors %}
-                                                        <h6 class="text-danger" style="list-style-type:square;">
-                                                            <ul>
-                                                                <li>
-                                                                    {{ error }}
-                                                                </li>
-                                                            </ul>
-                                                        </h6>
-                                                    {% endfor %}
-                                                </div>
-
-
-
-                                        <!-- /.Nivel de ensino field -->
-
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label>Nível de ensino:</label>
-                                                        <div class="input-group mb-3">
-                                                            <div class="input-group-prepend">
-                                                                <div class="input-group-text">
-                                                                    <span class="fas fa-user-friends"></span>
-                                                                </div>
-                                                            </div>
-                                                            {% render_field field class="form-control" placeholder=field.label %}
-                                                        </div>
-                                                    </div>
-
-
-                                                </div>
-
-                                            </div> <!-- /.div class row -->
-
-
-
-                                        <!-- /.Disciplina anual/semestral field -->
-
-                                            <div class="form-group clearfix">
-                                                <div class="icheck-alizarin d-inline">
-                                                    {% render_field field class="list-unstyled d-inline" placeholder=field.label %}
-                                                </div>
-                                            </div>
-
-
-                                        <!-- /.data início do Ano Letivo field -->
-
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label id="label_inicio">Início do Ano letivo:</label>
-                                                        <div class="input-group date mb-3">
-                                                            <div class="input-group-prepend">
-                                                                <span class="input-group-text">
-                                                                    <i class="fas fa-calendar-day"></i>
-                                                                </span>
-                                                            </div>
-                                                            {% render_field field class="form-control float-right" id="id_inicio_ano" %}
-                                                        </div>
-                                                        <p class="text-blue" id="p_inicio_ano"></p>
-                                                    </div>
-
-
-                                                </div>
-
-
-
-                                        <!-- /.data fim do Ano Letivo field disbled -->
-
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label>Fim do Ano letivo:</label>
-                                                        <div class="input-group date mb-3">
-                                                            <div class="input-group-prepend">
-                                                                <span class="input-group-text">
-                                                                    <i class="fas fa-calendar-day"></i>
-                                                                </span>
-                                                            </div>
-                                                            <label class="form-control input float-right"> </label>
-                                                        </div>
-                                                    </div>
-
-
-                                                </div>
-
-                                            </div> <!-- /.div class row -->
-
-
-
-
-                                            <div class="row" id="disciplina_div" {% if not field.errors %} style="display: none;" {% endif %} >
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label>Fim do 1ºSemestre:</label>
-                                                        <div class="input-group date mb-3">
-                                                            <div class="input-group-prepend">
-                                                                <span class="input-group-text">
-                                                                    <i class="fas fa-calendar-day"></i>
-                                                                </span>
-                                                            </div>
-                                                            <label> class="form-control input float-right" </label>
-                                                        </div>
-                                                    </div>
-
-
-                                                </div>
-
-
-
-
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label>Início do 2ºSemestre:</label>
-                                                        <div class="input-group date mb-3">
-                                                            <div class="input-group-prepend">
-                                                                <span class="input-group-text">
-                                                                    <i class="fas fa-calendar-day"></i>
-                                                                </span>
-                                                            </div>
-                                                            {% render_field field class="form-control input float-right" %}
-                                                        </div>
-                                                    </div>
-
-
-
-                                            </div> <!-- /.div class row -->
-
-
-
-
-                                            <label>Feriado Municipal</label>
-                                            <div class="input-group mb-3">
-                                                {% render_field field class="form-control" %}
-                                                <div class="input-group-append">
-                                                    <div class="input-group-text">
-                                                        <span class="fas fa-calendar-day"></span>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-
-
-
-
-                                        <!-- /.Carga semanal fields -->
-                                        <!-- /.2ªFEIRA field -->
-
-                                            <label class="login-box-msg">Carga semanal da disciplina:</label>
-                                            <div class="input-group mb-3">
-                                                <div class="input-group-prepend">
-                                                    <span class="input-group-text" style="border: 0">2ªF</span>
-                                                </div>
-                                                {% render_field field class="form-control" placeholder=field.label %}
-                                                <div class="input-group-append">
-                                                    <span class="input-group-text" id="inputGroup-sizing-sm">Tempo(s)</span>
-                                                </div>
-                                            </div>
-
-
-
-                                        <!-- /.3ªFEIRA field -->
-
-                                            <div class="input-group mb-3">
-                                                <div class="input-group-prepend">
-                                                    <span class="input-group-text" style="border: 0">3ªF</span>
-                                                </div>
-                                                {% render_field field class="form-control" placeholder=field.label %}
-                                                <div class="input-group-append">
-                                                    <span class="input-group-text" id="inputGroup-sizing-sm">Tempo(s)</span>
-                                                </div>
-                                            </div>
-
-
-                                        <!-- /.4ªFEIRA field -->
-
-                                            <div class="input-group mb-3">
-                                                <div class="input-group-prepend">
-                                                    <span class="input-group-text" style="border: 0">4ªF</span>
-                                                </div>
-                                                {% render_field field class="form-control" placeholder=field.label %}
-                                                <div class="input-group-append">
-                                                    <span class="input-group-text" id="inputGroup-sizing-sm">Tempo(s)</span>
-                                                </div>
-                                            </div>
-
-
-                                        <!-- /.5ªFEIRA field -->
-
-                                            <div class="input-group mb-3">
-                                                <div class="input-group-prepend">
-                                                    <span class="input-group-text" style="border: 0">5ªF</span>
-                                                </div>
-                                                {% render_field field class="form-control" placeholder=field.label %}
-                                                <div class="input-group-append">
-                                                    <span class="input-group-text" id="inputGroup-sizing-sm">Tempo(s)</span>
-                                                </div>
-                                            </div>
-
-
-                                        <!-- /.6ªFEIRA field -->
-
-                                            <div class="input-group mb-3">
-                                                <div class="input-group-prepend">
-                                                    <span class="input-group-text" style="border: 0">6ªF</span>
-                                                </div>
-                                                {% render_field field class="form-control" placeholder=field.label %}
-                                                <div class="input-group-append">
-                                                    <span class="input-group-text" id="inputGroup-sizing-sm">Tempo(s)</span>
-                                                </div>
-                                            </div>
-
-                                            {
-
-
-
-
-                                    <br>
-
-                                    <!-- /.submit button -->
-                                    <div class="row">
-                                        <div class="col text-center" >
-                                            <button type="submit" id="calculaP" class="btn btn-primary btn-block">Calcular</button>
-                                        </div>
-                                    </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                            </div>
-                            <div class="card-footer clearfix">
-                                <ul class="pagination pagination-sm m-0 float-right">
-                                    <a href="#" class="btn btn-primary">Go somewhere</a>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
                 </div>
-                <!-- /.row -->
-            </div><!-- /.container-fluid -->
+
+                <div class="row">
+
+
+                    <!-- /.row -->
+                </div><!-- /.container-fluid -->
+            </div>
+            <!-- /.content -->
         </div>
-        <!-- /.content -->
-    </div>
-    <!-- /.content-wrapper -->
+        <!-- /.content-wrapper -->
 
 {% endblock %}
