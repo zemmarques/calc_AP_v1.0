@@ -128,10 +128,7 @@ class Periodo(models.Model):
     TIPO_OPTIONS = (
         ("1p", "1º Período"),
         ("2p", "2º Período"),
-        ("3p_pre", "3ºP - Pré-escolar e 1º ciclo"),
-        ("3p_ciclo", "3ºP - 5º, 6º, 7º, 8º e 10º Anos"),
-        ("3p_fim_ciclo", "3ºP - 9º, 11ª e 12º Anos"),
-        ("1s", "1º Semestre"),
+        ("3p", "3º Período"),
         ("natal", "Natal"),
         ("carnaval", "Carnaval"),
         ("pascoa", "Páscoa"),
@@ -164,10 +161,23 @@ class Periodo(models.Model):
         blank=True,
         null=True,
     )
-    end_date = models.DateField(
+    end_date1 = models.DateField(
         'Fim',
         blank=False,
         null=False,
+        help_text="Usada no 3ºP para o Pré-escolar e 1º ciclo"
+    )
+    end_date2 = models.DateField(
+        'Fim',
+        blank=False,
+        null=False,
+        help_text="Usada no 3ºP para os 5º, 6º, 7º, 8º e 10º Anos"
+    )
+    end_date3 = models.DateField(
+        'Fim',
+        blank=False,
+        null=False,
+        help_text="Usada no 3ºP para os 9º, 11ª e 12º Anos"
     )
     created = models.DateTimeField(
         'Criado em',
