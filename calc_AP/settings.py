@@ -26,8 +26,7 @@ SECRET_KEY = 'django-insecure-43nq+8waays0$#dbde8-c8cuj%1-&@gjd7=mz#ozx04-8*lf+e
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = ['django-env.eba-9ihay9mm.eu-west-2.elasticbeanstalk.com']
 
 # Application definition
 
@@ -44,6 +43,7 @@ INSTALLED_APPS = [
 
     # other apps
     'widget_tweaks',
+    'gunicorn'
 
 
 ]
